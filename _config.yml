@@ -9,10 +9,10 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en"
-title                    : “Some awesome title I’ve not found yet“
+title                    : ML Hack
 title_separator          : "-"
-name                     : “A sure great name“
-description              : "An amazing website."
+name                     : ML Hack
+description              : Machine learning, deep learning, statistics, coding and finance.
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -83,11 +83,11 @@ analytics:
 
 # Site Author
 author:
-  name             : “Pierre Foret”
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : “Who am I ?.”
-  location         : “Paris. Or internet.”
-  email            : “Pierre_foret@berkeley.edu
+  name             : Pierre Foret
+  avatar           : /assets/images/bio-photo.jpg
+  bio              : Data scientist (some evolved ape with a computer under its arm)
+  location         : Paris
+  email            : Pierre_foret@berkeley.edu
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
   bitbucket        :
@@ -102,7 +102,7 @@ author:
   keybase          :
   instagram        :
   lastfm           :
-  linkedin         : "pierre-foret" 
+  linkedin         : pierre-foret
   pinterest        :
   soundcloud       :
   stackoverflow    : # "123456/username" (the last part of your profile url, e.g. https://stackoverflow.com/users/123456/username)
