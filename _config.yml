@@ -96,7 +96,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : https://github.com/PForet
+  github           : PForet
   gitlab           :
   google_plus      :
   keybase          :
@@ -153,7 +153,7 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 
 # Conversion
-markdown: maruku
+markdown: kramdown
 highlighter: rouge
 lsi: false
 excerpt_separator: "\n\n"
