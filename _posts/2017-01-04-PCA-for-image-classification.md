@@ -19,7 +19,7 @@ defaults:
 In image recognition, we generally overlook other techniques that were used before neural networks became a standard. These techniques are still worth our time, as they present some advantages:
  - They are usually simpler and faster to implement.
  - If the database is small, they can outperform deep-learning methods.
- - When your grand-children will ask how the job was done before quantum deep reinforcement learning was invented, you will have a great story to tell.
+ - When your grand-children will ask how the job was done before quantum deep reinforcement learning was a thing, you will have a great story to tell.
 
 For these reasons, I often start addressing an image classification problem without neural networks if possible, to get an idea of the "minimum" performance I should get when switching to more powerful algorithms.
 Always know the basics. You don't want to be the guy that do sentiment analysis using deep pyramid CNN and don't realise a naive bayes classifier gives better results on his 50MB dataset.
@@ -30,7 +30,7 @@ So today, we will see how to proceed to hand-written characters recognition usin
 
 Devanagari is an alphabet used in India and Nepal, composed of 36 consonants and 12 vowels. We will also add to this the 10 digits used to write numbers. For this classification problem, we will use a [small database available on Kaggle](https://www.kaggle.com/ashokpant/devanagari-character-dataset), composed of approximately 200 images of each class, hand written by 40 distinct individuals.
 
-Some characters from the dataset are displayed below. The upper row are all different type of characters, but some of them can be really similar in a novice eye (like mine). On the other hand, the lower row shows some ways to write the same consonant, _"chha"_.
+Some characters from the dataset are displayed below. The upper row are all different types of characters, but some of them can be really similar in a novice eye (like mine). On the other hand, the lower row shows some ways to write the same consonant, _"chha"_.
 
 ![Some characters]({{ "/assets/images/devanagari/characters examples.png" | absolute_url }})
 
@@ -38,14 +38,14 @@ With 58 classes of 200 images each and such an intra-class diversity, this probl
 
 ## Dealing with images
 
-We start by loading the images we want to classify, using PIL (Python Image Library). A demonstration code for that can be found [here](https://github.com/PForet/Devanagari_recognition/blob/master/load_data.py) if needed, but let's assume we already have a list of PIL images, and a list of integers representing their labels:
+We start by loading the images we want to classify, using `PIL` (Python Image Library). A demonstration code for that can be found [here](https://github.com/PForet/Devanagari_recognition/blob/master/load_data.py) if needed, but let's assume we already have a list of PIL images, and a list of integers representing their labels:
 
 {% highlight python %}
 consonants_img, consonants_labels = load_data.PIL_list_data('consonants')
 {% endhighlight %}
 
 For the sake of exposition, we will display the code only for the consonants dataset. Just assume everything is the same for the two others.
-At his point, you might want to rescale all your images to the same dimension, if it is not already done. Luckily, images from this dataset are all 36 x 36 pixels (thanks to you, kind Kaggle stranger).
+At his point, you might want to rescale all your images to the same dimensions, if it is not already done. Luckily, images from this dataset are all 36 x 36 pixels (thanks to you, kind Kaggle stranger).
 
 We convert our images to black and white, and take their negative. PIL allows us to do that easily:
 
@@ -90,7 +90,7 @@ Or as I call it, the poor man's `import keras`. Just some lines of code and we w
 ### Choosing the best model
 Here, we choose to use a support vector machine classifier (SVC) on the reduced features returned by a principal component analysis (PCA, we will get back to that after). The SVC is well adapted when we have few samples (these things quickly become painfully slow as the number of samples grows).
 
-These classifiers have a lot of meta-parameters, but we will tune here only the C and gamma ones. We choose to use a gaussian kernel, the default one which works usually very well. We thus define a simple function that takes a vector of inputs and a vector of labels as arguments, test several sets of parameters, and return the best SVC found. In order to do that, we use Scikit's `GridSearch` that will test all combinaisons of parameters from a dictionary, compute an accuracy with a K-Fold, and return the best model.
+These classifiers have a lot of meta-parameters, but we will tune here only C and gamma. We choose to use a gaussian kernel, the default one which works usually very well. We thus define a simple function that takes a vector of inputs and a vector of labels as arguments, test several sets of parameters, and return the best SVC found. In order to do that, we use Scikit's `GridSearch` that will test all combinaisons of parameters from a dictionary, compute an accuracy with a K-Fold, and return the best model.
 
 ```python
 from sklearn.svm import SVC
@@ -112,7 +112,7 @@ def best_SVC(X,y):
 
 ### Splitting the dataset
 
-As usual, we split our dataset into a training set to train the model on, and a testing set to evaluate its results. We uses Scikit's `train_test_split` function that is straight-forward, and keep the default training/testing ratio of 0.8/0.2.
+As usual, we split our dataset into a training set to train the model on, and a testing set to evaluate its results. We uses Scikit's `train_test_split` function that is straight-forward, and keep the default training/testing ratio of 0.8/0.2. Don't use the testing set to tune C and gamma, that's cheating.
 
 ### Using a PCA
 Our input space is large: we have a dimension for each pixel of the picture: we thus have 1296 features by observation. We choose to use a PCA to reduce this number of dimensions to 24. That's were the magic happens.
@@ -173,7 +173,7 @@ Here we got the promised 97% accuracy on the numerals. That was easy. Remember a
 ### The basic idea
 
 From now, we have two ways of explaining things:
- - With linear algebra, with spectral decomposition, singular values and covariance matrix.
+ - With linear algebra, spectral decomposition, singular values and covariance matrix.
  - With some pictures.
 
 If you want to explore the mathematical side of this (and you should, as it is not so difficult and PCA is fundamental in statistics), you will find plenty of good resource online. I like [this one](http://www.cs.otago.ac.nz/cosc453/student_tutorials/principal_components.pdf) that is complete and introduce all the algebra tools needed.
@@ -206,7 +206,7 @@ But how many patterns should we keep in our vectors ? One way to decide is to vi
 
 ![PCA recomposition]({{ "/assets/images/devanagari/pca_recomposition.png" | absolute_url }})
 
-Here, we show the original numeral on the top row, and the reconstituted image using 1, 4, 8, 24 and 48 patterns. We observe that using 24 patterns, we get a pretty good reconstitution of the original. That's the number we will put in `PCA(n_components = 24)`. Another way to find this number would be with tries and errors (there is a pretty good range of correct values), or looking at the proportion of explained variance, if you have a good grasp on how the PCA works.
+Here, we show the original numerals on the top row, and the reconstituted images using 1, 4, 8, 24 and 48 patterns. We observe that using 24 patterns, we get a pretty good reconstitution of the original. That's the number we will put in `PCA(n_components = 24)`. Another way to find this number would be with tries and errors (there is a pretty good range of correct values), or looking at the proportion of explained variance, if you have a good grasp on how the PCA works.
 
 ### That's pretty much it
 
