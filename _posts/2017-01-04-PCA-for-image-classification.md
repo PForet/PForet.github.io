@@ -12,6 +12,10 @@ defaults:
       share: true
       related: true
       use_math: true
+
+header:
+    teaser: /assets/images/post_picture_2.jpg
+excerpt: "This post should display a **header with an overlay image**, if the theme supports it."
 ---
 
 # Principal Components Analysis for image classification
