@@ -191,12 +191,23 @@ Those are 5 by 5 unicolour pictures, so they could be represented by a vector of
 Indeed, all of the eight pictures can be represented by adding some of these patterns. That would definitely gives an advantage for classifying them: we need only a vector of size 4 to encode these pictures, and not 25 as before. Of course, a vector of size 25 is easily dealt with by most machine learning algorithms, but remember we used the same technique to reduce the dimension of our Devanagari characters from 1296 to 24.
 But the main advantage is not here. Remember that we flatten our image into a vector where each dimension represent a pixel. Considering each pixel as a dimension have obvious drawbacks: a translation of one pixel for a character will leads to a very different point in the input vector space and, by opposition to CNN, most general machine learning algorithms don't take into account the relative positions of the pixels.
 
-That's how principal component analysis will help. It uncovers spacial patters in our images. In fact, the PCA will "group" together the pixels which are activated simultaneously in our images. Pixels which are close to one another will have good chances of been activated simultaneously: the pen will leave a mark on both of them ! 
-
+That's how principal component analysis will help. It uncovers spacial patters in our images. In fact, the PCA will "group" together the pixels which are activated simultaneously in our images. Pixels which are close to one another will have good chances of been activated simultaneously: the pen will leave a mark on both of them ! But let's see how it worked out for our hand written characters.
 
 ### And now the real world application
 
-
+We start by displaying the patters uncovered by the PCA, for the three datasets:
 ![Nepali components]({{ "/assets/images/devanagari/pca_main.png" | absolute_url }})
 
+Those patterns are ordered according to the variance they explain. In other word, if there is a pattern that is composed by a lot of pixels that are often activated simultaneously, we say it explains a lot of variance. On the other hand, a very small and uncommon patter is most likely noise and isn't really useful.
+
+For instance, if we take a look at the first row, we will see that the most important pattern is a "O" shape, meaning this pattern is often repeated in our images. If we feed the vector returned by the PCA to a machine learning algorithms, it will have access to the information "there is a big 'O' shape on the image" only by looking at the first element of this vector. That will surely be useful to learn how to classify "zero" !
+
+But how many patterns should we keep in our vectors ? One way to decide is to visualise how many are needed to get a good reconstitution of our original images:
+
 ![PCA recomposition]({{ "/assets/images/devanagari/pca_recomposition.png" | absolute_url }})
+
+Here, we show the original numeral on the top row, and the reconstituted image using 1, 4, 8, 24 and 48 patterns. We observe that using 24 patterns, we get a pretty good reconstitution of the original. That's the number we will put in `PCA(n_components = 24)`. Another way to find this number would be with tries and errors (there is a pretty good range of correct values), or looking at the proportion of explained variance, if you have a good grasp on how the PCA works.
+
+### That's pretty much it
+
+I hope you now have some understanding of how the PCA can be applied to image classification. Please keep in mind that PCA is a really powerful tool that can tackle a lot of statistics problems. We only have scraped the surface, and occulted some important points (the fact that the patterns are uncorrelated, for instance). So if you are not totally familiar with this tool, don't hesitate to do some research and practice !
