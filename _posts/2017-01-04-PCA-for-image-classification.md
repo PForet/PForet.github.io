@@ -15,7 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/dev_PCA.png
-excerpt: "This post should display a **header with an overlay image**, if the theme supports it."
+excerpt: "Image classification with principal component analysis (PCA), devanagari recognition, machine learning"
 ---
 
 # Principal Components Analysis for image classification
