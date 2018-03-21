@@ -15,7 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/dev_PCA.png
-excerpt: "Image classification with principal component analysis (PCA), devanagari recognition, machine learning"
+excerpt: "A visual exploration on how to apply principal component analysis to image recognition."
 ---
 
 # Principal Components Analysis for image classification
