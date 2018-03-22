@@ -20,15 +20,15 @@ excerpt: "How to specialize a convolutional neural network, by replacing the las
 
 # Specializing a neural network with SVC
 
-_This article is a follow up to [this post](/characters-recognition-with-keras/), where we trained a CNN to recognise Devanagari characters._
+_This article is a follow up to [this post](/characters-recognition-with-keras/), where we trained a CNN to recognize Devanagari characters._
 
-Transfer learning, the practice of using knowledge already acquired to new tasks, is a cornerstone of the _efficient ML_ philosophy. Of course, why would you start from scratch when the problem is almost already solved ?
+Transfer learning is the practice of using knowledge already acquired to new tasks, and it's awesome. Of course, why would you start from scratch when the problem is almost already solved?
 
-In the case of neural networks, a way to perform transfer learning is to re-train the last layers of a network. I'm not fond of this method, as it can unnatural to implement in my opinion. I think a more explicit way to benefit from a trained network is to use it as a features extractor by chopping of the last layers. When you see your network as just a features extractor, retraining the last layers mean stacking a new network on top. But why should we limit ourselves to this possibility ? Why not stack any other classifier over it ? If we have few training samples, why not use a more suitable tool like support vector classifiers, for instance ?
+In the case of neural networks, a way to perform transfer learning is to re-train the last layers of a network. I'm not fond of this method, as it can unnatural to implement. I think a more explicit way to benefit from a trained network is to use it as a features extractor by chopping off the last layers. When you see your network as just a features extractor, retraining the last layers mean stacking a new network on top. But why should we limit ourselves to this possibility? If we have few training samples, why not add a more suitable algorithm like support vector classifiers, for instance?
 
-That is exactly what we are going to do in this final chapter of our series on hand written characters recognition. Today, we will improve greatly our accuracy by training a CNN on the whole database (numerals, consonants and vowels), before replacing the last layers by support vector machines.
+This is exactly what we are going to do in this final chapter of our series on handwritten characters recognition. Today, we will improve greatly our accuracy by training a CNN on the whole database (numerals, consonants, and vowels), before replacing the last layers by support vector machines.
 
-_This article follows [this one](/characters-recognition-with-keras/) and presuppose the same datastructures are loaded in the workspace_
+_This article follows [this one](/characters-recognition-with-keras/) and presupposes the same data structures are loaded in the workspace_
 
 ### Merging the datasets
 
@@ -48,9 +48,9 @@ X_train, X_val, y_train, y_val = train_test_split(X_model, y_model, test_size = 
 
 ### Building a new model
 
-**We then define a model that will be trained on the whole training dataset** (numerals, consonants and vowels together). We now have a more consequent dataset (over 9000 images for training), and we will use data-augmentation. Because of that, **we can afford a more complex model to better fit the new diversity of our dataset**. The new model is constructed as followed:
+**We then define a model that will be trained on the whole training dataset** (numerals, consonants, and vowels together). We now have a more consequent dataset (over 9000 images for training), and we will use data-augmentation. Because of that, **we can afford a more complex model to better fit the new diversity of our dataset**. The new model is constructed as followed:
 
-- We start by a convolutional layer with **more filters (128)**.
+- We start with a convolutional layer with **more filters (128)**.
 - We put **two dense layers of 512 nodes** before the last layer, to construct a better representation of the features uncovered by the convolutional layers. We will keep these layers when specializing the model to one of the three datasets.
 - Because the model is still quite simple (no more than 4 millions parameters), we can afford to perform **numerous epochs during the training on a GPU**. Numerous epochs are also a good way to benefit fully from data-augmentation, as the model will discover new images at each iteration. However, to prevent overfitting, **we put a drop out layer before each dense layer**, and also one after the first convolutional layers.
 
@@ -122,7 +122,7 @@ for l in model_for_all.layers:
 model_for_all.save("Models/model_for_all")
 {% endhighlight %}
 
-We should now split our whole dataset into its numerals, vowels and consonants components. This part is a little tedious, but is necessary to ensure that we will test and validate our specified model on samples that were not seen during the previous learning.
+We should now split our whole dataset into its numerals, vowels and consonants components. This part is a little tedious but is necessary to ensure that we will test and validate our specified model on samples that were not seen during the previous learning.
 
 To do that, we define an `extract_subset` function that allows us to extract samples for which the label is in a given range. For instance, to extract only the consonants, we should extract all the samples with a label between 0 and 9.
 
@@ -148,11 +148,11 @@ X_train_vowels, y_train_vowels = extract_subset(X_train, y_train, 10, 22)
 X_train_consonants, y_train_consonants = extract_subset(X_train, y_train, 22, 58)
 {% endhighlight %}
 
-We have extracted the training, validation and testing sets for the three datasets. We can now load the pre-trained model, using keras' `load_model` function, and extract the activation of the last layers. This activation can be seen as high level features of our images.
+We have extracted the training, validation and testing sets for the three datasets. We can now load the pre-trained model, using keras' `load_model` function, and extract the activation of the last layers. This activation can be seen as high-level features of our images.
 
-One way to specialize our model would be to add another dense layer (with a softmax activation) on the top. This is in fact equivalent to **performing a logistic regression over the activation of the last layers** produced by each images (these activations will be called 'bottleneck_features'). Thus, we propose here to use a more powerful classifier instead of a last dense layer. We will train a SVC to predict the class of the character, given the bottleneck features as inputs.
+One way to specialize our model would be to add another dense layer (with a softmax activation) on the top. This is, in fact, equivalent to **performing a logistic regression over the activation of the last layers** produced by each image (these activations will be called 'bottleneck_features'). Thus, we propose here to use a more powerful classifier instead of a last dense layer. We will train a SVC to predict the class of the character, given the bottleneck features as inputs.
 
-Of course, our features extractor will be the model trained on the whole dataset (using data-augmentation) with the last dense layer removed. It will then transform an image into a vector of 512 high level features that we can feed to our SVC.
+Of course, our features extractor will be the model trained on the whole dataset (using data-augmentation) with the last dense layer removed. It will then transform an image into a vector of 512 high-level features that we can feed to our SVC.
 
 {% highlight python %}
 from keras.models import load_model
@@ -160,7 +160,7 @@ features_extractor = load_model("Models/model_for_all")
 {% endhighlight %}
 
 We then merge the training and validation set (to perform a K-fold for validation instead), and we perform a grid search to find the best parameters for our SVC.
-The following function will do so, and returns the best SVC found during the grid search.
+The following function will do so and returns the best SVC found during the grid search.
 
 {% highlight python %}
 def extract_bottleneck_features(X):
@@ -208,11 +208,11 @@ On the vowels and the numerals, we achieve an accuracy of 99.5% and 99.7%, thus 
 
 ## Neural networks as features extractors
 
-The fact that a trained neural network can be used as a features extractor is very useful. For image recognition, a popular technique consists in using pre-trained CNN (such as [Inception or VGG](https://towardsdatascience.com/neural-network-architectures-156e5bad51ba)) to extract high level features that can be fed to other machine learning algorithms. By doing so, I save myself the struggle of training a CNN, and improve my precision by using the fact that these CNN were trained on a database far bigger than mine.
+The fact that a trained neural network can be used as a features extractor is very useful. For image recognition, a popular technique consists in using pre-trained CNN (such as [Inception or VGG](https://towardsdatascience.com/neural-network-architectures-156e5bad51ba)) to extract high-level features that can be fed to other machine learning algorithms. By doing so, I save myself the struggle of training a CNN and improve my precision by using the fact that these CNN were trained on a database far bigger than mine.
 
-To visualise this phenomenon, I trained another CNN, with a dense layer containing only two neurones somewhere in the middle. If we remove all the layers after this one, the output of this CNN will be a vector of size two representing the input image in the plane. Please note that the final accuracy of this CNN is far inferior: it is generally a bad idea to put such a bottleneck on the information flowing in a neural network.
+To visualize this phenomenon, I trained another CNN, with a dense layer containing only two neurons somewhere in the middle. If we remove all the layers after this one, the output of this CNN will be a vector of size two representing the input image in the plane. Please note that the final accuracy of this CNN is far inferior: it is generally a bad idea to put such a bottleneck on the information flowing in a neural network.
 
-The features discovered by this CNN are displayed below (one colour by class, logarithmic transformations applied):
+The features discovered by this CNN are displayed below (one color by class, logarithmic transformations applied):
 
 ![Features 2d]({{ "/assets/images/devanagari/Features2d_all.jpeg" | absolute_url }})
 
@@ -224,6 +224,6 @@ Here, we can see that the features extracted from the images are grouped by clas
 
 ## Conclusion
 
-We tested several ways to classify Devanagari characters. The first one was a Support Vector Classifier trained over the first 24 axis of a PCA. We then improved our accuracy by switching to a Convolutional Neural Network, trained only on the relevant dataset (consonants, vowels or numerals). At last, we trained another CNN on all the dataset, using data-augmentation, to provide a powerful features extractor. We then trained one specialised SVC for each type of character over the high levels features provided by this CNN. **With this technique, we achieved an accuracy far superior to the other methods (99.7% for the numerals, 99.5% for the vowels and 94.9% for the consonants.**
+We tested several ways to classify Devanagari characters. The first one was a Support Vector Classifier trained over the first 24 axes of a PCA. We then improved our accuracy by switching to a Convolutional Neural Network, trained only on the relevant dataset (consonants, vowels or numerals). At last, we trained another CNN on all the dataset, using data-augmentation, to provide a powerful features extractor. We then trained one specialized SVC for each type of character over the high levels features provided by this CNN. **With this technique, we achieved an accuracy far superior to the other methods (99.7% for the numerals, 99.5% for the vowels and 94.9% for the consonants.**
 
-That's the end of the series ! Thank for your attention, and I promise: no more Devanagari characters here ;)
+That's the end of the series! Thank for your attention, and I promise no more Devanagari characters here ;)
