@@ -15,29 +15,29 @@ defaults:
 
 header:
     teaser: /assets/images/imdb.png
-excerpt: "How to obtain state-of-the-art accuracy on IMDB reviews, by using Bayesian features in support vector machines."
+excerpt: "How to obtain state-of-the-art accuracy on IMDB reviews, by using Bayesian features with support vector machines."
 ---
 
 # IMDB sentiment analysis with Bayesian SVC.
 
-Movies are good! Sometimes... But what if we want to find out if one is worth watching? A good start would be to look at its rating on the biggest reviewing platform, IMDB. We could also do without the rating, just by reading the reviews of other film enthusiasts, but this takes some time... so what about making our computer read the reviews and assess if they are rather positive or negative?
+Movies are great! Sometimes... But what if we want to find out if one is worth watching? A good start would be to look at its rating on the biggest reviewing platform, IMDB. We could also do without the rating, just by reading the reviews of other film enthusiasts, but this takes some time... so what about making our computer read the reviews and assess if they are rather positive or negative?
 
 Thanks to the size of this database, this toy problem has been studied a lot, with different algorithms. [Aditya Timmaraju and Vikesh Khanna](https://cs224d.stanford.edu/reports/TimmarajuAditya.pdf) from Stanford University give a really nice overview of the various methods that can be used to tackle this problem, achieving a maximum accuracy of 86.5% with support vector machines.[Jason Brownlee](https://machinelearningmastery.com/predict-sentiment-movie-reviews-using-deep-learning/) from _machinelearningmastery_ also gives a good deep learning tutorial achieving an accuracy of  87.8%. Today, we will see how a support vector machine with Bayesian features leads in only a few lines of code to an accuracy of **91.6%**.
 
 ## Multinomial Naive Bayes classifier
 
-Bayesian classifiers are a very popular and efficient way to tackle text classification problems. With this method, we represent a text by a vector $$f$$ of occurrences, for which each element denote the number of times a certain word appears in this text. The order of the words in the sentence doesn't matter, only the number of time each word appear. The Bayes formula gives us the probability that a certain text is a positive review (label $$Y=1$$):
+Bayesian classifiers are a very popular and efficient way to tackle text classification problems. With this method, we represent a text by a vector $$f$$ of occurrences, for which each element denotes the number of times a certain word appears in this text. The order of the words in the sentence doesn't matter, only the number of times each word appears. The Bayes formula gives us the probability that a certain text is a positive review (label $$Y=1$$):
 
 $$
 P(Y=1|f) = \frac{P(f|Y=1)P(Y=1)}{P(f)}
 $$
 
-We want to find the probability that a given text $$f$$ is a positive review ($$Y=1$$). Thanks to this formula, we only have to know the probability that this review is written given that it is positive ($$P(f|Y=1)$$), and the overall probability that a review is positive $$P(Y=1)$$.
+We want to find the probability that a given text $$f$$ is a positive review ($$Y=1$$). Thanks to this formula, we only need to know the probability that this review, knowing that it is positive, was written. ($$P(f|Y=1)$$), and the overall probability that a review is positive $$P(Y=1)$$.
 Although $$P(f)$$ appears in the formula, it does not really matter for our classification, as we will see.
 
 $$P(Y=1)$$ can be easily estimated: it is the frequency of positive reviews in our corpus (noted $$\frac{N^+}{N}$$).
-However, $$P(f|Y=1)$$ is more difficult to estimate and we need to make some very strong assumptions about it.
-In fact, we will consider that the appearance of each word of the text is independent of the appearance of the other words. This assumption is very _naive_, thus the name of the method.
+However, $$P(f|Y=1)$$ is more difficult to estimate, and we need to make some very strong assumptions about it.
+In fact, we will consider that the appearance of each word of the text is independent of the appearance of the other words. This assumption is very _naive_, thus illustrating the name of the method.
 
 We now consider that
 $$f|Y$$
@@ -81,11 +81,11 @@ $$
 $$
 
 where $$\circ$$ stands for the element-wise product and $$1$$ for the unitary vector $$(1,1,...1)$$.
-Now our Bayesian features vector is $$(w\circ f)$$ and our hyperplane is orthogonal to $$1$$. However we can wonder if this very precise hyperplane is the most efficient for classifying the reviews... and the answer is no! Here is our free lunch: we will use support vector machines to find a better separating hyperplane for these Bayesian features.
+Now our Bayesian features vector is $$(w\circ f)$$ and our hyperplane is orthogonal to $$1$$. However we can wonder if this particular hyperplane is the most efficient for classifying the reviews... and the answer is no! Here is our free lunch: we will use support vector machines to find a better separating hyperplane for these Bayesian features.
 
 ## From reviews to vectors
 
-The original dataset can be found [here](http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz). However, this script named [IMDB.py](https://github.com/PForet/ML-hack/blob/master/bayesian-features/IMDB.py) loads the reviews as a list of strings for both the train and the test set:
+The original dataset can be found [here](http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz). However, this script named [IMDB.py](https://github.com/PForet/ML-hack/blob/master/bayesian-features/IMDB.py) loads the reviews as a list of strings for both the train and the test sets:
 
 {% highlight python %}
 from IMDB import load_reviews
@@ -95,13 +95,13 @@ train_set, y_train = load_reviews("train")
 test_set, y_test = load_reviews("test")
 
 {% endhighlight %}
-Feel free to use it, it downloads and unzip the database automatically if needed. We will use `Scikit.TfidfVectorizer` to transform our texts into vectors. Instead of only counting the words, it will return their frequency and apply some very useful transformations, such as giving more weights to uncommon words. The vectorizer I used is a slightly modified version of `TfidfVectorizer` which a custom pre-processor and tokenizer (which keeps exclamation marks, useful for sentiment analysis). By default, it doesn't only count words but also bi-grams (pairs of consecutive words), as this gives best results at the cost of an increasing features space. You can find the code [here](https://github.com/PForet/ML-hack/blob/master/bayesian-features/text_processing.py), and uses it to run your own test:
+Feel free to use it, it downloads and unzips the database automatically if needed. We will use `Scikit.TfidfVectorizer` to transform our texts into vectors. Instead of only counting the words, it will return their frequency and apply some very useful transformations, such as giving more weight to uncommon words. The vectorizer I used is a slightly modified version of `TfidfVectorizer` which a custom pre-processor and tokenizer (which keeps exclamation marks, useful for sentiment analysis). By default, it doesn't only count words but also bi-grams (pairs of consecutive words), as this gives best results at the cost of an increasing features space. You can find the code [here](https://github.com/PForet/ML-hack/blob/master/bayesian-features/text_processing.py), and use it to run your own test:
 
 {% highlight python %}
 from text_processing import string_to_vec
-# Return a vector that counts the occurrences of each n-gram
+# Returns a vector that counts the occurrences of each n-gram
 my_vectorizer = string_to_vec(train_set, method="Count")
-# Return a vector of the frequency of each n-gram
+# Returns a vector of the frequency of each n-gram
 my_vectorizer = string_to_vec(train_set, method="TF")
 # Same but applies an inverse document frequency transformation
 my_vectorizer = string_to_vec(train_set, method="TFIDF")
@@ -110,15 +110,15 @@ my_vectorizer = string_to_vec(train_set, method="TFIDF")
 You can tune every parameter of it, just as with a standard `TfidfVectorizer`. For instance, if you want to keep only individual words and not bi-grams:
 
 {% highlight python %}
-# Return a vector that counts the occurrences of each word
+# Returns a vector that counts the occurrences of each word
 my_vectorizer = string_to_vec(X_train, method="Count", ngram_range = (1))
 {% endhighlight %}
 
-From now, we will only use:
+From now on, we will only use:
 {% highlight python %}
 myvectorizer = string_to_vec(train_set, method="TFIDF")
 {% endhighlight %}
-This will keep all words and bi-grams that appears more than 5 times in our corpus. This is a lot of words: our features spaces has 133572 dimensions, for 25000 training points!
+This will keep all words and bi-grams that appear more than 5 times in our corpus. This is a lot of words: our features space has 133572 dimensions, for 25000 training points!
 Now that we know how to transform our reviews to vectors, we need to choose a machine learning algorithm. We talked about support vector machines. However, they scale very poorly and are too slow to be trained on 25000 points with more than 100000 features. We will thus use a slightly modified version, the dual formulation of a _l2-penalized_ logistic regression. We will now explain why this is very similar to a support vector classifier.
 
 ## Support vector machine and logistic regression
@@ -129,7 +129,7 @@ A support vector machine tries to find a separation plane $$w^T.f=b$$ that maxim
 {:refdef: style="text-align: center;"}
 ![support vector machine margin]({{ "/assets/images/stat/SVM_margin.png" | absolute_url }}){:height="50%" width="50%"}
 {: refdef}
-A point is correctly classified if it is on the good side of the plane, and outside of the margin. On this image, we see that a sample is correctly classified if  $$w^T.f + b > 1$$ and $$Y=1$$ or $$w^T.f + b < 1$$ and $$Y=0$$. This can be summarised as $$(2y_i - 1)(w^T.f+b)$$. We want to maximise the margin $$\frac{2}{||w||} > 1$$ thus the optimisation problem of a support vector classifier:
+A point is correctly classified if it is on the good side of the plane, and outside of the margin. On this image, we see that a sample is correctly classified if  $$w^T.f + b > 1$$ and $$Y=1$$ or $$w^T.f + b < 1$$ and $$Y=0$$. This can be summarised as $$(2y_i - 1)(w^T.f+b)$$. We want to maximise the margin $$\frac{2}{||w||} > 1$$ thus the optimisation problem of a support vector classifier is:
 
 $$
 \left\{ \begin{array}{ll}
@@ -138,7 +138,7 @@ s.t. (2y_i - 1)(w^T.f+b) \geq 1
 \end{array} \right.
 $$
 
-However, if our observations are not linearly separable, such a solution doesn't exist. Thus we introduce _slack variables_ that allow our model to incorrectly classify some points at some cost $$C$$:
+However, if our observations are not linearly separable, such a solution doesn't exist. Therefore we introduce _slack variables_ that allow our model to incorrectly classify some points at some cost $$C$$:
 
 $$
 \left\{ \begin{array}{ll}
@@ -165,7 +165,7 @@ $$
 $$
 
 Where $$\sum_{i=1}^n \ln\left(1+e^{-y_i(w^T.f+b)}\right)$$ is the negative log-likelihood of our observations.
-If you like statistics, it is worth noting that adding the _l2-penalty_ is the same as maximizing the likelihood with a Gaussian prior on the weights (or a Laplacian prior for a _l1-penalty_).
+If you like statistics, it is worth noting that adding the _l2-penalty_ is the same as maximising the likelihood with a Gaussian prior on the weights (or a Laplacian prior for a _l1-penalty_).
 
 ### Why are they similar?
 
@@ -195,12 +195,12 @@ If we plot the cost of a positive example for the two models, we see that we hav
 This is why a SVC with a linear kernel will give results similar to a _l2-penalized_ linear regression.
 
 In our classification problem, we have 25000 training examples, and more than 130000 features, so a SVC will be extremely long to train.
-However, a linear classifier with a l2 penalty is much faster than a SVC when the number of samples grows, and give very similar results as we just saw.
+However, a linear classifier with a l2 penalty is much faster than a SVC when the number of samples grows, and gives very similar results, as we just saw.
 
 ### Dual formulation of the logistic regression
 
-When the number of samples is less than the number of features, as it is here, one might consider solving the dual formulation of the logistic regression.
-If you are interested in finding out about this formulation, I recommend [Hsiang-Fu Yu, Fang-Lan Huang, and Chih-Jen Lin](https://link.springer.com/content/pdf/10.1007%2Fs10994-010-5221-8.pdf) which make a nice comparison between the linear SVC and the dual formulation of the logistic regression, uncovering more similarities between these techniques.
+When the number of samples is fewer than the number of features, as it is here, one might consider solving the dual formulation of the logistic regression.
+If you are interested in finding out about this formulation, I recommend [Hsiang-Fu Yu, Fang-Lan Huang, and Chih-Jen Lin](https://link.springer.com/content/pdf/10.1007%2Fs10994-010-5221-8.pdf) which makes a nice comparison between the linear SVC and the dual formulation of the logistic regression, uncovering more similarities between these techniques.
 
 ## Implementation of the model
 
