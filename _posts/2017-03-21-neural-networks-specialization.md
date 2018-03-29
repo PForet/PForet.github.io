@@ -20,13 +20,13 @@ excerpt: "How to specialize a convolutional neural network, by replacing the las
 
 # Specializing a neural network with SVC
 
-_This article is a follow up to [this post](/characters-recognition-with-keras/), where we trained a CNN to recognize Devanagari characters._
+_This article is a follow up to [this post](/characters-recognition-with-keras/), where we trained a CNN to recognise Devanagari characters._
 
-Transfer learning is the practice of using knowledge already acquired to new tasks, and it's awesome. Of course, why would you start from scratch when the problem is almost already solved?
+Transfer learning is the practice of using knowledge already acquired to perform new tasks, and it's awesome. Of course, why would you start from scratch when the problem is almost already solved?
 
-In the case of neural networks, a way to perform transfer learning is to re-train the last layers of a network. I'm not fond of this method, as it can unnatural to implement. I think a more explicit way to benefit from a trained network is to use it as a features extractor by chopping off the last layers. When you see your network as just a features extractor, retraining the last layers mean stacking a new network on top. But why should we limit ourselves to this possibility? If we have few training samples, why not add a more suitable algorithm like support vector classifiers, for instance?
+In the case of neural networks, a way to perform transfer learning is to re-train the last layers of a network. I'm not fond of this method, as it can feel unnatural to implement. I think a more explicit way to benefit from a trained network is to use it as a features extractor by chopping off the last layers. When you see your network as just a features extractor, retraining the last layers mean stacking a new network on top. But why should we limit ourselves to this possibility? If we have few training samples, why not add a more suitable algorithm like support vector classifiers, for instance?
 
-This is exactly what we are going to do in this final chapter of our series on handwritten characters recognition. Today, we will improve greatly our accuracy by training a CNN on the whole database (numerals, consonants, and vowels), before replacing the last layers by support vector machines.
+This is exactly what we are going to do in this final chapter of our series on handwritten characters recognition. Today, we will improve greatly our accuracy by training a CNN on the whole database (numerals, consonants, and vowels), before replacing the last layers with support vector machines.
 
 _This article follows [this one](/characters-recognition-with-keras/) and presupposes the same data structures are loaded in the workspace_
 
@@ -51,7 +51,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_model, y_model, test_size = 
 **We then define a model that will be trained on the whole training dataset** (numerals, consonants, and vowels together). We now have a more consequent dataset (over 9000 images for training), and we will use data-augmentation. Because of that, **we can afford a more complex model to better fit the new diversity of our dataset**. The new model is constructed as followed:
 
 - We start with a convolutional layer with **more filters (128)**.
-- We put **two dense layers of 512 nodes** before the last layer, to construct a better representation of the features uncovered by the convolutional layers. We will keep these layers when specializing the model to one of the three datasets.
+- We put **two dense layers of 512 nodes** before the last layer, to construct a better representation of the features uncovered by the convolutional layers. We will keep these layers when specialising the model to one of the three datasets.
 - Because the model is still quite simple (no more than 4 millions parameters), we can afford to perform **numerous epochs during the training on a GPU**. Numerous epochs are also a good way to benefit fully from data-augmentation, as the model will discover new images at each iteration. However, to prevent overfitting, **we put a drop out layer before each dense layer**, and also one after the first convolutional layers.
 
 The `keras` implementation of the model is:
@@ -83,9 +83,9 @@ model_for_all.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['
 **We will now fit the same model using data-augmentation**. We use Keras' `ImageDataGenerator` to dynamically generate new batches of images. We specify the transformations we want on augmented images:
 - A **small random rotation** of the characters (maximum 15 degrees)
 - A **small random zoom** (in or out), up to a maximum of 20% of the image size.
-- We could do random translations, but they are pretty useless if the first layers are convolutional.
+- We could add random translations, but they are pretty useless if the first layers are convolutional.
 
-When using data-augmentation, we need to fit the model using a special function, `fit_generator`. We specify that **we want to monitor the training with a non-augmented validation set**, by specifying `validation_data=(X_val, y_val)`. At last, we save the weights only when the validation loss is decreasing, and we predict the accuracy on the testing set.
+When using data-augmentation, we need to fit the model using a special function, `fit_generator`. We specify that **we want to monitor the training with a non-augmented validation set**, by specifying `validation_data=(X_val, y_val)`. Finally, we save the weights only when the validation loss is decreasing, and we predict the accuracy on the testing set.
 
 {% highlight python %}
 from keras.preprocessing.image import ImageDataGenerator
@@ -94,7 +94,7 @@ datagen = ImageDataGenerator(
     rotation_range=15,
     zoom_range=0.2)
 
-# The checkpointer allows us to monitor the validation loss and save weights
+# The checkpointer allows us to monitor the validation loss and to save weights
 checkpointer = ModelCheckpoint(filepath='saved_models/weights.best.for_all',
                            verbose=1, save_best_only=True)
 
@@ -110,15 +110,15 @@ print("Accuracy on test set: {}".format(
         accuracy_score(np.argmax(y_test,axis=1), np.argmax(y_pred,axis=1))))
 {% endhighlight %}
 
-**We now remove the two last layers of our model** (the last dense layer and the drop out layer before). We then freeze the remaining layers to make them non-trainable, and we save our base model for future use.
+**We now remove the last two layers of our model** (the last dense layer and the drop out layer before). We then freeze the remaining layers to make them non-trainable, and we save our base model for future use.
 
 {% highlight python %}
-# Remove the two last layers (dense and dropout)
+# Removes the two last layers (dense and dropout)
 model_for_all.pop(); model_for_all.pop()
-# Make the layers non trainable
+# Makes the layers non trainable
 for l in model_for_all.layers:
     l.trainable = False
-# Save the model for easy loading
+# Saves the model for easy loading
 model_for_all.save("Models/model_for_all")
 {% endhighlight %}
 
@@ -148,9 +148,9 @@ X_train_vowels, y_train_vowels = extract_subset(X_train, y_train, 10, 22)
 X_train_consonants, y_train_consonants = extract_subset(X_train, y_train, 22, 58)
 {% endhighlight %}
 
-We have extracted the training, validation and testing sets for the three datasets. We can now load the pre-trained model, using keras' `load_model` function, and extract the activation of the last layers. This activation can be seen as high-level features of our images.
+We have extracted the training, validation and testing sets for the three datasets. We can now load the pre-trained model, using keras' `load_model` function, and extract the activation of the last layers. These activations can be seen as high-level features of our images.
 
-One way to specialize our model would be to add another dense layer (with a softmax activation) on the top. This is, in fact, equivalent to **performing a logistic regression over the activation of the last layers** produced by each image (these activations will be called 'bottleneck_features'). Thus, we propose here to use a more powerful classifier instead of a last dense layer. We will train a SVC to predict the class of the character, given the bottleneck features as inputs.
+One way to specialize our model would be to add another dense layer (with a softmax activation) on the top. This is, in fact, equivalent to **performing a logistic regression over the activation of the last layers** produced by each image (these activations will be called 'bottleneck_features'). Thus, we suggest here to use a more powerful classifier instead of a last dense layer. We will train a SVC to predict the class of the character, given the bottleneck features as input.
 
 Of course, our features extractor will be the model trained on the whole dataset (using data-augmentation) with the last dense layer removed. It will then transform an image into a vector of 512 high-level features that we can feed to our SVC.
 
@@ -159,8 +159,8 @@ from keras.models import load_model
 features_extractor = load_model("Models/model_for_all")
 {% endhighlight %}
 
-We then merge the training and validation set (to perform a K-fold for validation instead), and we perform a grid search to find the best parameters for our SVC.
-The following function will do so and returns the best SVC found during the grid search.
+We then merge the training and validation set (to perform a K-fold for validation instead), and perform a grid search to find the best parameters for our SVC.
+The following function will do so and return the best SVC found during the grid search.
 
 {% highlight python %}
 def extract_bottleneck_features(X):
@@ -212,7 +212,7 @@ The fact that a trained neural network can be used as a features extractor is ve
 
 To visualize this phenomenon, I trained another CNN, with a dense layer containing only two neurons somewhere in the middle. If we remove all the layers after this one, the output of this CNN will be a vector of size two representing the input image in the plane. Please note that the final accuracy of this CNN is far inferior: it is generally a bad idea to put such a bottleneck on the information flowing in a neural network.
 
-The features discovered by this CNN are displayed below (one color by class, logarithmic transformations applied):
+The features discovered by this CNN are displayed below (one colour by class, logarithmic transformations applied):
 
 ![Features 2d]({{ "/assets/images/devanagari/Features2d_all.jpeg" | absolute_url }})
 
