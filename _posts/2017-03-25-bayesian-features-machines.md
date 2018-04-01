@@ -15,14 +15,14 @@ defaults:
 
 header:
     teaser: /assets/images/imdb.png
-excerpt: "How to obtain state-of-the-art accuracy on IMDB reviews, by using Bayesian features with support vector machines."
+excerpt: "How to classify texts using Bayesian features and support vector machines."
 ---
 
 # IMDB sentiment analysis with Bayesian SVC.
 
 Movies are great! Sometimes... But what if we want to find out if one is worth watching? A good start would be to look at its rating on the biggest reviewing platform, IMDB. We could also do without the rating, just by reading the reviews of other film enthusiasts, but this takes some time... so what about making our computer read the reviews and assess if they are rather positive or negative?
 
-Thanks to the size of this database, this toy problem has been studied a lot, with different algorithms. [Aditya Timmaraju and Vikesh Khanna](https://cs224d.stanford.edu/reports/TimmarajuAditya.pdf) from Stanford University give a really nice overview of the various methods that can be used to tackle this problem, achieving a maximum accuracy of 86.5% with support vector machines.[Jason Brownlee](https://machinelearningmastery.com/predict-sentiment-movie-reviews-using-deep-learning/) from _machinelearningmastery_ also gives a good deep learning tutorial achieving an accuracy of  87.8%. Today, we will see how a support vector machine with Bayesian features leads in only a few lines of code to an accuracy of **91.6%**.
+Thanks to the size of this database, this toy problem has been studied a lot, with different algorithms. [Aditya Timmaraju and Vikesh Khanna](https://cs224d.stanford.edu/reports/TimmarajuAditya.pdf) from Stanford University give a really nice overview of the various methods that can be used to tackle this problem, achieving a maximum accuracy of 86.5% with support vector machines. [James Hong and Michael Fang](https://cs224d.stanford.edu/reports/HongJames.pdf) used paragraph vectors and recurrent neural networks to classify correctly 94.5% of the reviews. Today, we explore a much simple algorithm, yet very effective, proposed by [Sida Wang and Christopher D. Manning](https://www.aclweb.org/anthology/P12-2018): the Naive Bayes Support Vector Machine (NBSVM). We will propose a geometric interpretation to this method, in addition to a Python implementation that yields **91.6%** of accuracy on the IMDB dataset in only a few lines of code.
 
 ## Multinomial Naive Bayes classifier
 
