@@ -49,15 +49,15 @@ Incidentally, that also mean you have to balance your sleeping time and your pre
 
 Joke aside, this preparation was really needed, and probably one of the most critical part of the competition. Other teams didn't stayed on campus too late, I believe these hours of preliminary work really gave us a competitive edge. You can still do a lot of things without the complete datasets!
 
- ## The final line
+## The final line
 
 Early in the morning of the last day, we arrived at an open space in a building near the campus. We were served coffee, some sandwitches, and a usb drive containing several datasets. It was time to see how our careful planning would hold in front of the real thing.
 
- ### Don't step on each others toes
+### Don't step on each others toes
 
 You are a team of four. That means you should be able to do near to four time as much as you would alone. For that to be true, your workflow must be parallelized efficiently. Make sure you are communicating with your team-mates on what you are doing, and make sure your careful planning allows four people to work independently at all time. Don't invade other people's work, and be sure to conduct your own without distracting them. Working on different and independent sub-problems allows us to cover a lot of ground. When we uploaded our final report, I discovered about two thirds of it for the first time. Trust yourself and trust your team-mates!
 
- ### A negative result is a result
+### A negative result is a result
 
 Something, things don't go as planed. You don't have enough datapoints to separate the noise from the information correctly. Your statistical test fails, some variables that you though were critical aren't actually significative. That's totally fine. Report it, say that you would need more data to conclude, and move on.
  
@@ -73,20 +73,20 @@ For example, we wanted to perform a regression for which the target variable was
 Another obvious advice, but nonetheless true: make sure your analysis actually add value to the report. Correlation maps or grid plot are nice to get a quick overview of the data, but it doesn't add any real value to the analysis. Anyone can do it, show us what you got! There is a lot of tools for explaratory data analysis, probably more than you can master in a lifetime (more than I could, at least). For instance, we used:
  - Principal component analysis, for continuous variables.
  - (Multiple) Correspondance Analysis for nominal categorical data.
- - Good old $\chi^2$ tests on pivot tables.
+ - Good old $$\chi^2$$ tests on pivot tables.
  - Logistic regression, beta regression and the associated significance tests.
  - Hierachical clustering.
 
 My favorite being the correspondance analysis. Not only it offers a very nice way of visualizing the interactions between several variables in a plane, but it make it meaningful to use the euclidian distance as a measure between your distributions: nice for clustering!
 
- ### Weather the storm
+### Weather the storm
 
- Plans are just plans, and something will invariably get wrong at some point. Some results that you were expecting will turn out to be negative or some bit of code will raise an error. That's fine. Quikly find another hypothesis to test instead or trace your bug. When deep into the competition, you will doubt your abilities. The other teams will seem more efficient or smarter than you. Because everything didn't go as planed, you will think that winning is no longer possible. It might be the case of not, but truth is you have no way of knowing for now. Don't get distracted, move a step at a time, and give your very best at each moment without focusing on the outcome.
+Plans are just plans, and something will invariably get wrong at some point. Some results that you were expecting will turn out to be negative or some bit of code will raise an error. That's fine. Quikly find another hypothesis to test instead or trace your bug. When deep into the competition, you will doubt your abilities. The other teams will seem more efficient or smarter than you. Because everything didn't go as planed, you will think that winning is no longer possible. It might be the case of not, but truth is you have no way of knowing for now. Don't get distracted, move a step at a time, and give your very best at each moment without focusing on the outcome.
 
- ### Write a nice report
+### Write a nice report
 
 At the end of the day, your report is the only link between your hard work and the judges, so make sure it's good. We spend about two third of our time writing the report during the final day. That can seems like a lot, but remember that most of our code was already prepared and that we studied the dataset's features the whole night, so about three hours were enough to wrap up the analysis.
 
- ## A last word
+## A last word
 
 I hope that these pieces of advices will be able to help the future competitors to give the best of them! One last word though: you need skills but also a little bit of luck. The other teams were amazing, and some made a truly great work. Winning is a combinaison of inspiration, teamwork efficiency and some luck. Don't take the result of the competition too personnally. Not getting a place on the podium in a competition doesn't mean that you're not a good data scientist. Take a shot, give your best, but don't be too harsh with yourself.
