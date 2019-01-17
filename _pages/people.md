@@ -13,6 +13,7 @@ Longtime statistics and machine learning enthusiast. Winner of the 2018 UC Berke
 {:refdef: style="text-align: center;"}
 ![yoanR]({{ "/assets/images/people/yoan_russac_round.jpg"| absolute_url }})
 {: refdef}
+PhD candidate in Machine Learning at ENS Paris under the supervision of Olivier Cappé and Aurélien Garivier particularly interested in Online Learning, Recommendation Systems and Reinforcement Learning
 [More info](/yoan_russac/)
 
 
