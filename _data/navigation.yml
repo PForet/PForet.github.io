@@ -1,5 +1,7 @@
 # main links
 main:
+  - title: "People"
+    url: /people/
   - title: "All projects"
     url: /portfolio/
   # - title: "Sample Posts"

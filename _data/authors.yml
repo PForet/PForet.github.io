@@ -1,0 +1,23 @@
+Pierre Foret:
+  name        : "PF"
+  bio         : ""
+  avatar      : ""
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:billyrick@rick.com"
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "https://thewhip.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/extravagantman"
+
+Yoan Russac:
+  name        : "Yoan Russac"
+  bio         : "PhD Student in Machine Learning at ENS Paris"
+  location    : "Paris"
+  avatar      : "/assets/images/bio_YR.jpeg"
+  email       : "yoan.russac@ens.fr"
+  github      : "YRussac"
+  linkedin    : "yoanrussac"
