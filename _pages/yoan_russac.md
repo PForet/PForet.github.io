@@ -2,7 +2,8 @@
 title: "Yoan Russac"
 layout: single
 permalink: /yoan_russac/
-author: Yoan Russac
+
+author: Yoan_Russac
 author_profile: true
 header:
   overlay_image: /assets/images/cover_YR.jpg

@@ -10,7 +10,7 @@ Pierre_Foret_people:
 
 Yoan_Russac:
   name        : Yoan Russac
-  authorid    : "yoan_russac_authorid"
+  authorid    : "Yoan_Russac"
   bio         : "PhD Student in Machine Learning at ENS Paris"
   location    : "Paris"
   avatar      : "/assets/images/bio_YR.jpeg"
