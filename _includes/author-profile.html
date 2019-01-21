@@ -13,84 +13,10 @@
 
 
 <div itemscope itemtype="http://schema.org/Person">
-
-  <!--<p itemprop="description">-->
-        <!--{{ site.data.authors["Yoan_Russac"]}}-->
-      <!--</p>-->
-
-  <!--<p itemprop="description">-->
-        <!--{{ site.data.authors["Pierre_Canaille"]}}-->
-      <!--</p>-->
-
-
-  <!--<p itemprop="description">-->
-        <!--{{ "AuthorCount: "}}-->
-      <!--</p>-->
-
-    <!--<p class="author__count" itemprop="description">-->
-        <!--{{ authorCount }}-->
-      <!--</p>-->
-
-   <!--<p itemprop="description">-->
-        <!--{{ "authors object: "}}-->
-      <!--</p>-->
-
-
-   <!--<p class="authors" itemprop="description">-->
-        <!--{{ authors }}-->
-      <!--</p>-->
-
-  <!--<p itemprop="description">-->
-        <!--{{ "page.author object: "}}-->
-      <!--</p>-->
-
-  <!--<p itemprop="description">-->
-        <!--{{page.author }}-->
-      <!--</p>-->
-
-  <!--<p itemprop="description">-->
-        <!--{{ "page.authors object: "}}-->
-      <!--</p>-->
-
-  <!--<p itemprop="description">-->
-        <!--{{ page.authors }}-->
-      <!--</p>-->
-
-   <!--<p itemprop="description">-->
-        <!--{{ "-&#45;&#45;&#45;&#45;" }}-->
-      <!--</p>-->
-
+  
   {% for authorid in authors%}
- <!-- <p itemprop="description">
-        {{ "je rentre dans la boucle"}}
-      </p>
-
-
-  <p itemprop="description">
-        {{ "Tentative"}}
-      </p>
-
-  <p>
-        {{ site.data.authors[authorid]}}
-      </p>
-
-
-  <p itemprop="description">
-        {{ "authorid object"}}
-      </p>
-
-
-  <p itemprop="description">
-        {{authorid}}
-      </p>-->
 
   {% assign author = site.data.authors[authorid] %}
-
-  <!--<p itemprop="description">-->
-        <!--{{author}}-->
-      <!--</p>-->
-
-
 
   <p>
   {% if author.avatar %}
