@@ -16,7 +16,7 @@ defaults:
 header:
     teaser: /assets/images/Monkey-typing.jpg
     overlay_image: /assets/images/head/head2.png
-excerpt: "Advices for future competitors"
+excerpt: "Clearing computer science interviews, without being a computer scientist."
 
 ---
 
