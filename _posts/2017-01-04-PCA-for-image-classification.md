@@ -16,6 +16,7 @@ defaults:
 
 header:
     teaser: /assets/images/dev_PCA.png
+    overlay_image: /assets/images/head/head7.png
 excerpt: "A visual exploration on how to apply principal component analysis to image recognition."
 ---
 

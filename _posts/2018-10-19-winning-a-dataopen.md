@@ -15,6 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/citadel.png
+    overlay_image: /assets/images/head/head3.png
 excerpt: "Advices for future competitors"
 ---
 

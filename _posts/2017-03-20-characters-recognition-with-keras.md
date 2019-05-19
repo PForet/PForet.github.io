@@ -15,6 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/devanagari-1-reduced.png
+    overlay_image: /assets/images/head/head6.png
 excerpt: "Performing characters recognition with Keras and TensorFlow"
 ---
 

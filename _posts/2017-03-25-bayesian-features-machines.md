@@ -15,6 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/imdb.png
+    overlay_image: /assets/images/head/head4.png
 excerpt: "How to classify texts using Bayesian features and support vector machines."
 ---
 

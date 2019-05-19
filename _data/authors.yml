@@ -2,9 +2,9 @@ Pierre_Foret_people:
   name        : Pierre Foret
   authorid    : "Pierre_Foret_people"
   bio         : ENSAE x Berkeley
-  location    : San Francisco
+  location    : New York
   email       : Pierre_foret@berkeley.edu
-  avatar      : "/assets/images/bio-photo.jpg"
+  avatar      : "/assets/images/people/pierre_foret.jpg"
   linkedin         : pierre-foret
   github           : PForet
 
