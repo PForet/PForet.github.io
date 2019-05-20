@@ -17,6 +17,11 @@ header:
     teaser: /assets/images/Monkey-typing.jpg
     overlay_image: /assets/images/head/head2.png
 excerpt: "Clearing computer science interviews, without being a computer scientist."
+
+toc: true
+toc_label: "Contents"
+toc_icon: "cog"
+
 ---
 
 # Introduction to competitive programming for interviews

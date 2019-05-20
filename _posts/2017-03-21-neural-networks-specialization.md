@@ -17,6 +17,9 @@ header:
     teaser: /assets/images/svc.png
     overlay_image: /assets/images/head/head5.png
 excerpt: "How to specialize a convolutional neural network, by replacing the last layers with a SVC."
+toc: true
+toc_label: "Contents"
+toc_icon: "angle-double-down"
 ---
 
 # Specializing a neural network with SVC

@@ -17,6 +17,9 @@ header:
     teaser: /assets/images/citadel.png
     overlay_image: /assets/images/head/head3.png
 excerpt: "Advices for future competitors"
+toc: true
+toc_label: "Contents"
+toc_icon: "angle-double-down"
 ---
 
 # How to win a Citadel DataOpen semi-final
