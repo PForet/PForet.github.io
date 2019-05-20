@@ -17,7 +17,6 @@ header:
     teaser: /assets/images/Monkey-typing.jpg
     overlay_image: /assets/images/head/head2.png
 excerpt: "Clearing computer science interviews, without being a computer scientist."
-
 ---
 
 # Introduction to competitive programming for interviews
