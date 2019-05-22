@@ -26,7 +26,7 @@ toc_icon: "angle-double-down"
 
 In [this article](/PCA-for-image-classification/), we saw how to apply principal component analysis to image recognition. Our performances were quite good, but clearly not state-of-the art. Today, we are going to see how we can improve our accuracy using convolutional neural network (CNN). The best results will be obtained by combining CNN and support vector machines. This article is only meant as an introduction to CNN and `Keras`, so feel free to jump to the [last article of the serie](/neural-networks-specialization/) if you are already familiar with this framework.
 
-## Simples CNN beats our PCA-SVC approach
+## Anatomy of a CNN
 
 As one could guess, a simple CNN is enough to improve the results obtained in the previous post. We explain here how to build a CNN using `Keras` (TensorFlow backend).
 
@@ -41,7 +41,7 @@ We have several types of layers than we can stack in our model, including:
 - **Pooling layers**: Pooling layers are useful when used with convolutional layers. They return the maximum activation of the neurons they take as input. Because of this, they allow us to easily reduce the output dimension of the convolutional layers.
 - **Dropout layers**: These layers are very different from the previous ones, as they only serve for the training and not the final model. Dropout layers will randomly "disconnect" neurons from the previous layer during training. Doing so is an efficient regularisation technique that efficiently reduces overfitting (mode details below)
 
-### Compiling the model
+### Losses and metrics
 
 Once our model is built, we need to compile it before training. Compilation is done by specifying a loss, here the **categorical cross-entropy**, a metric (**accuracy** here) and an optimization method.
 The loss is the objective function that the optimization method will minimize. Cross-entropy is a very popular choice for classification problems because it is differentiable, and reducing the cross-entropy leads to better accuracy. Choosing accuracy as our performance metric is fair only because our classes are well balanced in our datasets. I cannot emphasize enough how much accuracy would be a poor choice if our classes were imbalanced (more of some characters than others).
@@ -70,7 +70,10 @@ The method we will use relies on **dropout layers**. Dropout layers are layers t
 
 To apply this method, **we insert two drop_out layers in our model**, before each dense layer. Drop_out layers require only one parameter: the probability of a neuron to be disconnected during a training iteration. These parameters should be adjusted with trials and errors, by monitoring the accuracy on the testing and validation set during training. We found that **25% for the first drop_out layer and 80% for the second** gives the best results.
 
-### Implementation
+## Implementation
+
+### Using Keras 
+
 
 We use `Keras` with a TensorFlow backend to implement our model:
 
@@ -163,6 +166,8 @@ We can now train our model and get our score:
 get_score(tensors_consonants, consonants_labels, model, epoch=180, batch_size=800,
           name='consonants_from_scratch')
 {% endhighlight %}
+
+### Results 
 
 By reporting the results obtained for the three datasets, we see improvements compared to the SVC methods.
 

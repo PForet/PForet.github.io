@@ -18,15 +18,15 @@ header:
     overlay_image: /assets/images/head/head3.png
 excerpt: "Advices for future competitors"
 toc: true
-toc_label: "Contents"
+toc_label: "Content"
 toc_icon: "angle-double-down"
 ---
 
 # How to win a Citadel DataOpen semi-final
 
-Last September, we had the opportunity to compete in a datascience competition organized by Citadel LLC. With an interesting problem, a thrilling competitive environment and the possibility to represent UC Berkeley during the national final in New-York, we were highly motivated and ready to give our best. Before giving some advice and advice for future competitors, I would like to thanks the organizers for making this event possible. It was well organized, thoroughly thought, and flawlessly executed. I also want to give credits to my teammates: Teddy Legros, Hosang Yoon and Li Cao, you guys rock. 
+Last September, we had the opportunity to compete in a datascience competition organized by Citadel LLC. With an interesting problem, a thrilling competitive environment and the possibility to represent UC Berkeley during the national final in New-York, we were highly motivated and ready to give our best. Before giving some advice for future competitors, I would like to thanks the organizers for making this event possible. It was well organized, thoroughly thought, and flawlessly executed. I also want to give credits to my teammates: Teddy Legros, Hosang Yoon and Li Cao. Winning would not have been possible without them! 
 
-### About the competition 
+## About the competition 
 
 For those who are not familiar with the DataOpen, it's a competition organized by the hedge fund Citadel LLC and the recruitment firm Correlation One, taking place in some of the most prestigious universities in the world. In less than 24 hours, competitors must analyze several datasets, draw insights from them, and conduct research on a question of their own. 
 This is not a Kaggle, the goal is not to come up with the best possible model to optimize a pre-defined metric. You have to understand the data, separate the noise from the information, come up with a relevant story and justify it rigorously. Real life stuff for a data scientist. 
@@ -46,15 +46,13 @@ This part is critical. It's a fast-paced competition, so make sure your team-mat
 
 ### Do your homework
 
-During the competition, you must be focused on the data and the story you tell. You won't have the time to learn new things, and you must be confident in your ability to execute technically demanding analysis flawlessly, without having to look up the documentation for new tools, or the hypothesis of a particular model. Before the competition, we wrote a lot of glue code. We agreed on how our datasets will be represented, and made sure that every bit of code would take it as input without having to change anything. Once the dataset was released, we almost didn't write any new code: we were able to focus only on finding insights from the data. We could test a lot of hypotheses in a very short period of time, just because every statistical test was already scripted, tested, and understood. This was especially helpful for me, as I often find myself needing some old-school, uncommon statistical tests that are not implemented in open source Python packages.
+The competition is about being focused on the data and the story you tell. You unfortunately won't have the time to learn new things, and you must be confident in your ability to execute your analysis flawlessly, without having to look up the documentation for new tools, or the hypothesis of a particular model. Before the competition, we wrote a lot of glue code. We agreed on how our datasets will be represented, and made sure that every bit of code would take it as input without having to change anything. Once the dataset was released, we almost didn't write any new code: we were able to focus only on finding insights from the data. We could test a lot of hypotheses in a very short period of time, just because every statistical test was already scripted, tested, and understood. I would add that this is especially true if you work with Python instead of R, as a lot of statistical tests are not very well integrated in Python.
 
-## The previous day
+### The previous day
 
 One particularity of the competition is that even if the datasets are released only in the morning of the last day, some descriptions of the data (source, variable names and types) are provided the evening of the previous day. That leaves you a whole night to plan which hypothesis you want to test and what kind of question would be interesting to answer. When we were given the datasets, we already had a very clear idea of what to do. 
 
-Incidentally, that also means that you have to balance your sleeping time and your preparation for this last night before the big day. Some three hours of sleep were nice to be sure I would still be sharp during the day, while letting me enough time to digest the numerous dataset features and review my code one last time. Congratulations to Hosang for pulling the all nighter, and still managing to be more productive and focused than me!
-
-All jokes aside, this preparation was really necessary, and probably one of the most critical parts of the competition. Other teams didn't stay on campus too late, but I believe these hours of preliminary work really gave us a competitive edge. You can still do a lot of things without the complete datasets!
+This preparation was really necessary, and probably one of the most critical parts of the competition. Other teams didn't stay on campus too late, but I believe these hours of preliminary work really gave us a competitive edge. You can still do a lot of things without the complete datasets!
 
 ## The final line
 
@@ -66,8 +64,7 @@ You are a team of four. This means you should be able to do near to four time as
 
 ### A negative result is still a result
 
-Sometimes, things don't go as planed. You don't have enough datapoints to separate the noise from the information correctly. Your statistical test fails, some variables that you though were critical aren't actually significant. That's totally fine. Report it, say that you would need more data to conclude, and move on.
- 
+Sometimes, things don't go as planed. You don't have enough datapoints to separate the noise from the information correctly. Your statistical test fails, some variables that you though were critical aren't actually significant. That's totally fine: just report it, say that you would need more data to conclude, and move on.
 
 
 ![xkcd linear reg](https://imgs.xkcd.com/comics/linear_regression.png){: .align-center}
@@ -82,7 +79,10 @@ Cherish the negative result, make sure that it can happen and that you can recog
 ### Know your stuff
 
 That's probably the most obvious advice I could give, but it's nonetheless true. In order to win, you have to know what you are doing. Recognizing which statistical model is the most adapted to answer a specific question is not an easy task, and there is no way to hack it. Practice, make mistakes, understand them, but do that before the competition! Kaggle kernels, for instance, are a good way to get feedbacks on your analysis.
+
+
 For example, we wanted to perform a regression for which the target variable was a mortality rate. Would it make sense to do a standard linear regression in this case? Are we sure that the hypothesis behind a linear regression make them suitable to modelize a percentage? The answer is no, that's why we used beta-regression instead. 
+{: .notice--info}
 
 ### Add value
 
@@ -97,7 +97,7 @@ On of my favorites is the correspondance analysis. Not only does it offer a very
 
 ### Weather the storm
 
-Plans are just plans, and something will invariably get wrong at some point. Some results that you were expecting will turn out to be negative or some bit of code will raise an error. That's fine. Quickly find another hypothesis to test instead, or trace your bug. When deep into the competition, you will doubt your abilities. The other teams will seem more efficient or smarter than you. Because everything didn't go as planed, you will think that winning is no longer possible. It might be the case, but truth is that for now, you can’t know for sure. Don't get distracted, move a step at a time, and give your very best at each moment without focusing on the outcome.
+Plans are just plans, and something will invariably get wrong at some point. Some results that you were expecting will turn out to be negative or some bit of code will raise an error. That's fine. Quickly find another hypothesis to test instead, or trace your bug. At some point you will probably doubt your abilities, and the other teams will seem more efficient or smarter than you. Because everything didn't go as planed, you may think that winning is no longer possible. It might be the case, but truth is that for now, you can’t know for sure! So don't get distracted, move a step at a time, and give your very best at each moment without focusing on the outcome.
 
 ![monkey](https://media.giphy.com/media/5Zesu5VPNGJlm/giphy.gif){: .align-center}
 <figure>

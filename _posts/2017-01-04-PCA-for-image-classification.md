@@ -35,7 +35,10 @@ Always know the basics. You don't want to be the guy who does sentiment analysis
 
 So today, we will see how to recognise hand-written characters using simple machine learning algorithms.
 
-## Classifying some Devanagari characters
+
+## About the dataset
+
+### Classifying some Devanagari characters
 
 Devanagari is an alphabet used in India and Nepal, composed of 36 consonants and 12 vowels. We will also add to this the 10 digits used to write numbers. For this classification problem, we will use a [small database available on Kaggle](https://www.kaggle.com/ashokpant/devanagari-character-dataset), composed of approximately 200 images of each class, hand written by 40 distinct individuals.
 
@@ -45,7 +48,7 @@ Some characters from the dataset are displayed below. The ones on the upper row 
 
 With 58 classes of 200 images each and such an intra-class diversity, this problem is non-trivial. Today, we will build a classifier for each dataset of characters (consonant, vowel of numeral) separately. We will see how to achieve an accuracy between 97% (for the numerals) and 75% (for the consonants), using only scikit learn's algorithms. In another article, we will see how deep learning can push these results up to 99.7% for the numerals and 94.9% for the consonants.
 
-## Dealing with images
+### Dealing with images
 
 We start by loading the images we want to classify, using `PIL` (Python Image Library). A demonstration code for that can be found [here](https://github.com/PForet/Devanagari_recognition/blob/master/load_data.py) if needed, but let's assume we already have a list of PIL images, and a list of integers representing their labels:
 
@@ -92,9 +95,9 @@ consonants_inputs = to_vectors(consonants_proc)
 
 Cheers ! The tedious part of pre-processing the images is over now.
 
-## Import sklearn
+## Implementation
 
-Or as I call it, the poor man's `import keras`. After just some a few lines of code and we will be done classifying our images. Once satisfied, we will try to understand what happened exactly.
+Time for some `import sklearn`! Or as I call it, the poor man's `import keras`. After just some a few lines of code and we will be done classifying our images. Once satisfied, we will try to understand what happened exactly.
 
 ### Choosing the best model
 Here, we choose to use a support vector machine classifier (SVC) on the reduced features returned by a principal component analysis (PCA, we will get back to that later). The SVC is well adapted when we have few samples (these things quickly become painfully slow as the number of samples grows).
@@ -177,7 +180,7 @@ Best accuracy on consonants: 0.745257452575
 
 Here we got the promised 97% accuracy on the numerals. That was easy. Remember a good code is like a good dentist: quick, and without unnecessary agonising pain. But now that we made this work, maybe it's time to understand what this PCA thing did to our images...
 
-## PCA, mon amour,
+## PCA in image recognition
 
 ### The basic idea
 

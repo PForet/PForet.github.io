@@ -26,8 +26,23 @@ toc_icon: "cog"
 
 # Introduction to competitive programming for interviews
 
-This file aims at giving an overview of the fundamentals needed to perform in coding interviews and competitive programming. If you don't have enough time to cover the material before an incoming interview, take at least a quick glance at the complexity of the different data structures, then move directly to the recommended practice exercises (and do the graph exercises only if you have the time).
+Whether you want to become a researcher, a data scientist or a software engineer in the industry, you will probably have to clear live programming exercises during your interviews. There are several different formats:
+- Some timed hackerrank/leetcode challenges as a first interview, to screen candidates.
+- A remote interview on codepad while discussing with an interviewer by phone.
+- An onsite whiteboard interview
+
+Regardless of the type of interview that you are getting, the skills necessary to clear it are pretty much the same. However, it can be a daunting perspective, especially if you don't come from a computer science background. The good news is that these types of interviews are quite straightforward to practice, and some might say even fun! 
+
+This post aims at giving an overview of the fundamentals needed to perform in coding interviews and competitive programming. If you don't have enough time to cover the material before an incoming interview, take at least a quick glance at the complexity of the different data structures, then move directly to the recommended practice exercises (and do the graph exercises only if you have the time).
 The exercises can seem complicated at first, so don't panic, practice makes perfect. 
+
+Also, you will have to pick a programing language to practice and do the interviews. Unless you have a **very** good reason to do otherwise (for instance: you spend the last 5 years to code in C++ daily), pick Python.
+
+You might read online that programming interviews are among the most difficult things on earth, and require a huge amount of preparation. I've sometimes read on r/cscareerquestions that 2000 hours (!) of leetcode preparation are necessary to have a shot at Google, Facebook or other top firms. Don't get distracted by this kind of unfounded claims. Work on it until you feel comfortable and have the tools necessary to tackle new problems, but don't overdo it. It's far more useful to work on some real-life stuff, such as contributing to open-source projects or doing a little bit of research on the side.
+{: .notice--warning}
+
+**Why I'm writing this:** I've interviewed quite a lot, securing offers from the very top hedge funds and tech firms. While previous experiences are usually what make the cut, clearing the coding interviews are a necessary part of the process. I also regularly interview applicants for the Master of Financial Engineering of UC Berkeley, so I can offer both perspectives. I believe that the right amount of focused preparation can make anyone as prepared as a computer science graduate in that regard, so I want to share some advice!
+{: .notice--info}
 
 ## Data structures
 
@@ -49,12 +64,16 @@ The following datastructures are an absolute must-know:
  - [Linked lists](https://www.geeksforgeeks.org/data-structures/linked-list/) (single and double)
  - [Array](https://www.geeksforgeeks.org/array-data-structure/) (basic and dynamic)
  - [Hash table](https://www.geeksforgeeks.org/hashing-data-structure/)
- - [Binary search tree](https://www.geeksforgeeks.org/binary-search-tree-data-structure/) of better, [Red-black-tree]
+ - [Binary search tree](https://www.geeksforgeeks.org/binary-search-tree-data-structure/) of better, [Red-black-tree](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)
  - [Stacks](https://www.geeksforgeeks.org/stack-data-structure/) and [queue](https://www.geeksforgeeks.org/queue-data-structure/) are easy to understand and are very basic structures.
 
-For each data structure, one should know how to implement it in the relevant programming language (except for balanced and red-black trees that are too long to implement in a typical interview). From there, there is two possible type of interview question:
-- Implement the data structure from scratch ([exemple in python for linked lists](https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python/))
-- Find the adapted data structure to solve a given problem (a most likely type of question). 
+For each data structure, there are some typical questions:
+- Implement the data structure from scratch ([exemple in python for linked lists](https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python/)). A frequent question for linked lists or binary trees, sometimes for heaps. Rare for a more complicated structure like balanced trees. 
+- Implement some function that acts on the data structure (like a method to find the $i^{th}$ smallest element in a heap for instance). 
+- Find the adapted data structure to solve a given problem (the most likely type of question). 
+
+You might have to mix some data structures together to get desirable properties. Example: [implement a Least Recently Used Cache](https://www.geeksforgeeks.org/lru-cache-implementation/) 
+{: .notice--info}
 
 ### If you have more time
 A lot of questions on data structures can be prepared in advance (almost all of them actually). Classic problems can include _" count the number of nodes in a Binary Search Tree (BST) that lies in a given range"_ or _" remove duplicates from a sorted linked list"_. All these questions are available on GeeksForGeeks. Knowing them beforehand is very handy, but most of the time you can work it out on your own, provided you have a good grasp of the relevant data structure. 
@@ -99,12 +118,13 @@ Good problems to know:
 
 ### Graphs
 
-While it is not a _algorithm paradigms_ strictly speaking, graph problems need their own well-known algorithms. Hopefully, there are very few of them that are actually tested in interviews. A graph problem is easy to recognize, but they can take unexpected forms: for instance, board games problems are usually graph problems, as you are expected to construct a graph of the possible moves and do some analysis on it.
+While it is not an _algorithm paradigms_ strictly speaking, graph problems need their own well-known algorithms. Hopefully, there are very few of them that are actually tested in interviews. A graph problem is easy to recognize, but they can take unexpected forms: for instance, board games problems are usually graph problems, as you are expected to construct a graph of the possible moves and do some analysis on it.
 
 There are several ways to represent a graph, the two most common being:
 - As an adjacency matrix `m` where `m[i][j]` is not zero if the edges `i` and `j` are connected (thus, if the graph is undirected, `m` will be symmetric)
 - As a set of vertices (`{ (1,3), (2,3)}` for instance) where each tuple `(i,j)` represent a connection between the edges `i` and `j`.
-Usually, algorithms performance depend on the representation that you choose (matrix representation takes more memory for sparse enough graphs, but checking if two edges are connected is O(1)), so it is useful to think a little bit of which representation is more adapted to the problem. More about the graph representation [here](https://www.geeksforgeeks.org/graph-and-its-representations/). 
+
+Usually, algorithms performance depend on the representation that you choose, so it is useful to think a little bit of which representation is more adapted to the problem. More about the graph representation [here](https://www.geeksforgeeks.org/graph-and-its-representations/). 
 
 
 Must-know algorithms for graphs are:
@@ -112,7 +132,7 @@ Must-know algorithms for graphs are:
 - [Dijkstra](https://www.hackerrank.com/challenges/dijkstrashortreach/problem)
 - [Finding the number of subgraphs](https://www.hackerrank.com/challenges/torque-and-development/problem) (you can look at the editorial to get a hint at this one, only knowing the implementation is useful)
 
-With only these 3 problems, you should be good to go for 99% of the graphs problems (Fund3's most difficult coding questions boiled down to a simple BFS)
+With only these 3 problems, you should be good to go for 99% of the graphs problems.
 
 If you have more time, [Kruskal’s](https://www.geeksforgeeks.org/?p=26604) and [Prim's](https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/) are good to know and can be useful, but they are for more for competitors in my opinion and would not be tested in interviews at all.
 
@@ -152,12 +172,16 @@ def ThreeSum(l):
 
 _(In fact, the best algorithm known for that task is in O(n^2 * log log n / log n), so we are very close and no one is expected to find this solution)_
 
-### Takeaway
+## Takeaway
 
 When given a new problem, makes sure that you understand it by giving the interviewer (or testing on the simplest test cases for online exercises) a basic solution. Then, try to see if the questions fall into one of the big algorithms paradigms (is it a dynamic programming problem? Is there a greedy solution? Could it be related to graphs?). If the answer is no, then it is probably more a data structure problem such as the 3Sum problem above. In this case, try to see if you can find some trick (such as searching for `-a-b` in the list for instance), and if you can, try so find which data structure is more adapted for your problem (a Python `set` here).
 
-# Resources 
+Don't hesitate to post in the comments if you have any question
+{: .notice--info}
+
+### Resources 
 
  - [MIT interview handouts](http://courses.csail.mit.edu/iap/interview/materials.php) Very short, good explanation of the typical data structures
  - [Hackerrank](https://www.hackerrank.com) Very good practice problems, and good [preparation kit](https://www.hackerrank.com/interview/interview-preparation-kit) to typical interview questions.
  - [GeeksForGeeks](https://www.geeksforgeeks.org) A little bit more difficult to digest, but the Bible for data structures and algorithms. Everything you need and beyond if you have enough time to cover the material
+

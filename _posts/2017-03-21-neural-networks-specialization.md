@@ -34,7 +34,7 @@ This is exactly what we are going to do in this final chapter of our series on h
 
 _This article follows [this one](/characters-recognition-with-keras/) and presupposes the same data structures are loaded in the workspace_
 
-### Merging the datasets
+## Merging the datasets
 
 **We start by merging the three sets**. To do so, we increment the labels of the vowels by 10 (the number of numerals) and the labels of the consonants by 22 (number of numerals + vowels) to resolve conflicts between labels.
 
@@ -50,7 +50,7 @@ X_model, X_test, y_model, y_test = train_test_split(all_tensors, all_labels, tes
 X_train, X_val, y_train, y_val = train_test_split(X_model, y_model, test_size = 0.176, stratify=y_model, random_state=1)
 {% endhighlight %}
 
-### Building a new model
+## Building a new model
 
 **We then define a model that will be trained on the whole training dataset** (numerals, consonants, and vowels together). We now have a more consequent dataset (over 9000 images for training), and we will use data-augmentation. Because of that, **we can afford a more complex model to better fit the new diversity of our dataset**. The new model is constructed as followed:
 
@@ -82,7 +82,7 @@ opt = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
 model_for_all.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 {% endhighlight %}
 
-### Fitting the model with data-augmentation
+## Fitting the model with data-augmentation
 
 **We will now fit the same model using data-augmentation**. We use Keras' `ImageDataGenerator` to dynamically generate new batches of images. We specify the transformations we want on augmented images:
 - A **small random rotation** of the characters (maximum 15 degrees)
@@ -198,7 +198,7 @@ X_numerals = np.vstack((X_train_numerals, X_val_numerals))
 Best_top_classifier_numerals = SVC_Top(X_numerals, np.vstack((y_train_numerals, y_val_numerals)))
 {% endhighlight %}
 
-### Results
+## Results
 
 These results improved by far what we obtained with a CNN trained from scratch:
 
