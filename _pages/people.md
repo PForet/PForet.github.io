@@ -1,19 +1,34 @@
 ---
-title: People
-layout: single
+title: "People"
+layout: splash
+header:
+  overlay_image: /assets/images/head/head12.png
+excerpt: "About the authors."
 permalink: /people/
+
+pierre_foret:
+  - image_path: /assets/images/people/pierre_foret_people.png
+    url: /pierre_foret/
+    alt: "placeholder image 2"
+    title: "Pierre Foret"
+    excerpt: 'Currently a Google AI Resident (starting in July). Longtime statistics and machine learning enthusiast.
+    Winner of the 2018 UC Berkeley DataOpen.
+    Competitive programmer in Python, C++, and Julia.'
+    btn_label: "Read More"
+    btn_class: "btn--primary"
+
+yoan_russac:
+  - image_path: /assets/images/people/yoan_russac_people.png
+    url: /yoan_russac/
+    alt: "placeholder image 2"
+    title: "Yoan Russac"
+    excerpt: 'PhD candidate in Machine Learning at ENS Paris under the supervision of Olivier Cappé and Aurélien Garivier particularly interested in Online Learning, Recommendation Systems and Reinforcement Learning.'
+    btn_label: "Read More"
+    btn_class: "btn--primary"
+
 ---
-{:refdef: style="text-align: center;"}
-![pierreF]({{ "/assets/images/people/pierre_foret_round.jpg"| absolute_url }})
-{: refdef}
-Longtime statistics and machine learning enthusiast. Winner of the 2018 UC Berkeley DataOpen (20000$ cash prize, access to the national final). Competitive programmer in Python, C++, and Julia.
-[More info](/pierre_foret/)
 
+{% include people_row id="pierre_foret" type="left" %}
 
-{:refdef: style="text-align: center;"}
-![yoanR]({{ "/assets/images/people/yoan_russac_round.jpg"| absolute_url }})
-{: refdef}
-PhD candidate in Machine Learning at ENS Paris under the supervision of Olivier Cappé and Aurélien Garivier particularly interested in Online Learning, Recommendation Systems and Reinforcement Learning.
-[More info](/yoan_russac/)
-
+{% include people_row id="yoan_russac" type="left" %}
 
