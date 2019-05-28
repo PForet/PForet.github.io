@@ -17,11 +17,35 @@ toc_icon: "angle-double-down"
 
 # Convex optimization for machine learning
 
+Ever been puzzled by the "dual" argument in scikit learn, or the dual gradient descent in some paper you were reading? Well even if you haven't been, having some knowledge of convex optimization is very valuable for a machine learning enthusiast. However, it usually overlooked in the online machine learning courses. But fear not, we have you covered! 
+
+This article is the first of a two-part series on convex optimization applied to machine learning. This first post introduce the basics of convex optimization, only requiring some knowledge of algebra. The second one focus on duality (conjugates, lagrangian, dual problems).
+
+ This series aims at covering the basic theory and can be seen as an introductory course that will give you all the tools needed to understand the algorithms that relie on convex optimization or duality. The focus on examples, illustrations and applications will help you to build the intuition necessary to put these new skills to good use.
+
+**How to approach this** This is a long post! Don't hesitate to visit it several times, to take the time to redo the examples or to ask questions in the comments. You will benefit from it the most if you don't rush through. Convex optimization is a very powerful tool in machine learning, even for deep learning. Take the time to build an intuition of how it works and to recognize which problem would benefit from this approach.
+{: .notice--warning}
+
+<div class="notice--info">
+<b> For later: </b> More elaborate applications will come later, for instance:
+<ul>
+  <li>Robustness to adversarial examples</li>
+  <li>Training a model when the labels are noisy</li>
+  <li>Integration of convex optimization problems in deep neural networks</li>
+</ul>
+This series will give you the tools to understand it all.
+</div>
+
+**Resources** If you are interested in convex optimization, the [Boyd](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) is probably one of the best books on the subject. It is in open access, and I'll reference it often during this series, so why not check it out?
+{: .notice--info}
+
 ## Convex functions
 
 ### General definition of a convex function 
 
-Several ways of characterizing a convex function:
+Let's start with the beginning and define what is a convex function. 
+
+There are several ways of characterizing a convex function, but let's begin with the definition:
 
 Lets consider the function $$f : R^n \to R$$. The function is said convex if and only if for any $$x$$ and $$y$$ in $$R^n$$ and any $$\theta \in [0,1]$$, we have:
 
@@ -39,7 +63,9 @@ $$
 
 In most of machine learning applications, $$C$$ would represent all the possible values that the parameters can take. This is generally an interval of $$R^n$$, so this condition is not an issue in most of the cases.
 
-### For functions that are differentiable once
+### Rules on derivatives
+
+**Functions that are differentiable once**
 
 Now, if our function $$f$$ is differentiable (it has a gradient $$\nabla f(x)$$ everywhere), then it is convex if and only if:
 
@@ -48,7 +74,7 @@ $$f(y) \geq f(x) + \nabla f(x)^T(y-x)$$
 [insert graph here]
 
 
-### For functions that are differentiable twice
+**For functions that are differentiable twice**
 
 If $$f$$ can be differentiate twice (meaning its Hessian $$\nabla^2 f(x)$$ exists everywhere), then the convexity condition boils down to:
 
@@ -58,7 +84,7 @@ where the inequality should be understood component wise.
 
 [insert graph here with f, f' and f'']
 
-### Some examples of convex and concave function:
+### Some examples of convex and concave function
 
 A lot of commonly used functions are convex or concave. For instance:
 
@@ -78,7 +104,9 @@ The following functions are very important in machine learning as we will see:
 
 It is a good idea to try to prove the convexity of these functions using the conditions stated above, to get better at recoginizing convex/concave functions. Some of the proofs of the convexity of these functions are available at the end of this post, and a lot more can be found page 73 of [the Boyd](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf). 
 
-## Composition of convex and concave functions
+## Composing convex functions
+
+### Composition rules
 
 Some rules allows us to compose convex functions to get more complex, but still convex, functions. This can be a little bit tricky: for instance, the composition of two convex functions are not necessary convex! However these rules are very helpful and are good to keep in mind. They are as follows:
 
@@ -102,7 +130,7 @@ On the other hand, $$f$$ is concave if $$h$$ is concave AND for all $$k \in [1,.
 
 A function that is _non-decreasing in argument $$k$$_ simply means that the function is non-decreasing when the $$k^{th}$$ argument changes, for any possible values of the other argument. For instance, $$f(x_1, x_2) = e^{x_1+x_2}$$ is non-decreasing is both arguments: for any fixed value of $$x_1$$, the function $$t\to f(x_1, t)$$ is increasing, and vice-versa. 
 
-### Example 1
+**Example 1**
 
 Consider the following function:
 
@@ -110,7 +138,7 @@ $$h(z_1, ..., z_n) = \left(\sum_{i=1}^n max(0,z_i)^p \right)^{1/p}$$
 
 for some $$p\geq 1$$. We know that the p-norm $$x\to (\sum_{i=1}^n  \mid x \mid^p)^{1/p}$$ is convex and non-decreasing on $$R^n_+$$ in each of its arguments. The function $$x \to max(0,x)$$ is convex, thus $$h$$ is convex
 
-### Example 2
+**Example 2**
 
 Consider a linear regression that use the mean squared error as a loss. To calibrate the model, we want to find the weights $$W$$ and bias $$b$$ that minimize:
 
@@ -118,20 +146,20 @@ $$f(W,b) = \|WX - b\|^2$$
 
 We know that the squared norm $$x\to \mid x \mid ^2$$ is convex. The function $$X,b \to WX - b$$ is linear, thus $$f$$ is convex. As a result, we can fit our linear regression on the dataset by solving this convex optimization problem. 
 
-### When the rules are not enough
 
+<div class="notice--warning">
 Sometime these rules are not enough to show that a function is convex. For instance, consider the very useful log-sum-exp function:
 
 $$f(x_1, x_2, ... x_n) = \ln(e^{x_1} + e^{x_2} + ... + e^{x_n})$$
 
 The exponentials are all convex, the sum of convex functions is convex, but the logarithm is concave: we cannot apply the rules we just see. However, the log-sum-exp function is definitely convex: proving it just requires a little more work. 
+</div>
 
-
-## Other useful operations that preserve convexity
+### Other useful operations that preserve convexity
 
 The following operations are very useful too to prove that a more complicated function is convex: we just have to show that we can 'build' it using convex functions, the rules that we just saw or these operations:
 
-### Weighted sum
+**Weighted sum**
 
 If $$h_1, h_2, ..., h_k$$ are some convex functions, then the weighted sum
 
@@ -139,7 +167,7 @@ $$f(x) = \sum_{i=1}^k w_if_i(x)$$
 
 is convex for any positive weights $$(w_i)_{i=1...k}$$
 
-### Pointwise maximum
+**Pointwise maximum**
 
 If $$h_1, h_2, ..., h_k$$ are some convex functions, then their maximum for any point:
 
@@ -147,7 +175,7 @@ $$f(x) = \max_i f_i(x)$$
 
 is convex too. 
 
-### Partial minimization
+**Partial minimization**
 
 If $$h(x,y)$$ is convex in $$x$$ and $$y$$, then the solution to the minimization over $$y$$ is convex in $$x$$. In other words:
 
@@ -158,7 +186,41 @@ is convex.
 
 ## Positive matrix and convexity 
 
-[TODO]
+Positive definite matrices plays a very important role in convex optimization and statistics. Let's start by defining what they are:
+
+### Definition and convexity
+
+Take a symmetric matrix $$M \in R^{n\times n}$$. We say that $$M$$ is positive definite ($$M\in S^n_{++}$$)if for any vector $$z$$, we have $$z^TMz > 0$$. We say that the matrix is only semi-definite ($$M\in S^n_{+}$$) if we have instead $$z^TMz \geq 0$$.  
+
+These matrices are important for us, as the function:
+
+$$x\to x^TQx$$
+
+is convex if $$Q$$ is semi-positive definite (strictly convex if positive definite). Because the covariance matrix of a multivariate distribution is positive semi-definite, these matrices plays a key role in statistics.
+
+### Eigenvalues
+
+Another way to characterize these matrices is to say that a matrix is positive definite if and only if all of its eigenvalues are stricty positive (i.e $$\forall x, Qx = \lambda x \implies \lambda > 0$$). 
+This is a very useful characterization of positive matrices. It also means that the log-determinant is well defined for positive definite matrices: it is the sum of the logarithms of the eigenvalues of the matrix:
+
+$$ - \ln \det (X) = - \ln \prod_i \lambda_i = - \sum \ln \lambda_i$$
+
+It is also written $$\ln \det (X^{-1})$$ sometimes. This function is convex on $$S^n_{++}$$, and very useful. It appears in the negative log-likelihood of a multivariate Gaussian distribution for instance.
+
+**Proof of the equivalence:** Observe that if $$z$$ is an eigenvector of $$M$$, then $$z^TMz = z^T(\lambda z) = (z^Tz) \lambda > 0$$ with $$(z^Tz) > 0$$ so the eigenvalue $$\lambda$$ must be positive. On the other hand, we can write $$Q = \sum_i \lambda_i q_i^Tq_i$$ so that $$z^TQz = \sum_i \lambda_i (q_iz)^T(q_iz)$$ and if all the eigenvalues of $$Q$$ are positive, then $$z^TQz$$ is positive too.
+{: .notice--info}
+
+### Covariance matrices
+
+Another useful fact is that for any matrix $$A \in R^{n\times m}$$, the matrix $$A^TA$$ is semi-definite positive (definite if $$A$$ is of rank $$m$$). This can be checked easily by noting that for any vector $$z$$ we have $$z^T(A^TA)z = (Az)^T (Az) = \|Az\|_2^2 \geq 0$$. As a result, the empirical covariance matrix $$X^TX$$ is semi-definite positive.
+
+One quick example in finance: the function that associate a portfolio $$w$$ with its variance $$w^TX^TXw$$ is convex. 
+
+
+
+
+**Are semi-definite matrix an issue?** Well, generally yes. If some matrix $$Q$$ is only semi-definite, then the function $$z\to z^TQz$$ is still convex, but not strictly convex. This means that the they is are several values of $$z$$ that minimize this function, which is bad if $$z$$ is some parameters of our model that we want to estimate! Moreover, these semi-definite matrices are often encountered when you dont have enough data. For instance, if you have more dimensions than observations in your data matrix $$X$$, the empirical covariance $$X^TX$$ will only be semi-definite. This happens quite a lot in finance, if you have 500 stocks but only 100 days of returns for instance. Definitely a problem if you want to optimize a portfolio!
+{: .notice--warning}
 
 ## Convex optimization problems
 
@@ -179,41 +241,150 @@ $$ \begin{array}{cl} & \min_{w,b} \|w\| \\
  s.t. & \,\, -y_i \times (w^Tx_i-b) \leq -1 \, ,\,  i=1,...,N \end{array}$$ 
 
 
-Lets detail now some special cases of convex optimization problems, for which some efficient solutions exists:
+Let's detail now some of the most common cases of convex optimization problems. For each type of problem, we provide a typical usecase that you might encounter "in real life".
 
 ### Linear program (LP)
 
-The simplest case, for which very efficient algorithms exists:
+The simplest case, where both the objective function and the constraints are linear:
 
 $$\begin{array}{cl} & \min_x c^Tx \\
  s.t. & \left\{ \begin{array}{l}
  Ax = b \\ 
  Gx \leq h\end{array} \right. \end{array}$$
 
+These problems can be solved very efficiently, and even a laptop can cruch them for thousands of variables and constraints easily. They have applications in operations research, signal processing, macro-economy, and in machine learning when $$l_1$$ norms are used. 
 
-[exemple with label robustness ?]
+**Example: Linear regression with Mean Absolute Error loss**
+Also called Least absolute deviations (LAD), is is in essence similar to a standard linear regression, but we use the $$l_1$$ norm (absolute error) instead of the $$l_2$$ norm (squared error) as our loss function. As a result, the optimization problem is written:
+
+$$\min_w \| Xw - Y \|_1 = \min_w \sum_i |w^Tx_i - y_i|$$
+
+Because we used the $$l_1$$ norm, we can express this problem as a linear program. It is easy to see that the solution to the problem above is also the solution of:
+
+$$\begin{array}{cl} & \min_{w,\xi} \sum_i \xi_i \\
+ s.t. & \begin{array}{lr}
+|w^Tx_i - y_i| \leq \xi_i & i=1,...,N 
+\end{array} \end{array}$$
+
+And the constraints on the absolute value can be replaced by linear constraints: 
+
+$$\begin{array}{cl} & \min_{w,\xi} \sum_i \xi_i \\
+ s.t. & \left\{ \begin{array}{l}
+ w^Tx_i - y_i \leq \xi_i \\ 
+ -(w^Tx_i - y_i) \leq \xi_i \\
+ \end{array} \right. \end{array}$$
 
 ### Quadratic programming (QP)
+
+This type of problem deals with quadratic objective functions (of the form $$x\to x^TQx$$ with $$Q\in S^n_{++}$$) and linear constraints. Their standard form is:
 
 $$\begin{array}{cl} & \min_x \frac{1}{2} x^TQx + c^Tx \\
  s.t. & \left\{ \begin{array}{l}
  Ax = b \\ 
  Gx \leq h\end{array} \right. \end{array}$$
 
-[example with least square]
-[example with markov]
+These problems can be solved pretty efficiently too, although not as efficiently as linear programs.
+
+**Example 1: Elastic net**
+
+The elastic net is a linear regression with both an $$l_1$$ and a $$l_2$$ penalization. The loss is in this case the mean squared error. As a result, the training problem is:
+
+$$\min_w \|Xw - Y\|_2^2 + \lambda_1 \|w\|_1 + \lambda_2 \|w\|_2^2$$
+
+We can develop the first norm to make it clearer that we indeed have a quadratic objective function, and we do the same trick as above for the $$l_1$$ penalty. Thus the program becomes:
+
+$$\begin{array}{cl} & \min_{w,\xi} w^T X^TX w - 2Y^TXw + Y^TY + \lambda_2\sum_i w_i^2 + \lambda_1\sum_i \xi_i \\
+ s.t. & \left\{ \begin{array}{l}
+ w \leq \xi \\ 
+ -w \leq \xi \end{array} \right. \end{array}$$
+
+Remember that the empirical covariance matrix $$X^TX$$ is positive definite, so $$w^T X^TX w$$ is quadratic. $$\sum_i w_i^2$$ is obviously quadratic too (can be written $$w^Tw$$), and the rest is linear. As a result, the elastic net training problem can be written as a quadratic programming problem.
+
+**Example 2: Markowitz portfolio** 
+
+You want to invest in a mix of $$n$$ assets, and you want the expected return of your investments to be greater than a certain level $$r$$. However you are not a gambler, and you want the variance of your returns to be as low as possible. If you have access to the expected returns $$\mu$$ of the stocks and their covariance matrix $$\Sigma$$, you then want to invest in the portfolio that solves:
+
+$$\begin{array}{cll} & \min_w w^T\Sigma w & \textrm{(minimize the variance)}\\
+ s.t. &  \mu^Tw \geq r & \textrm{(for a given minimum return)}\end{array}$$
+
+
+**Example 3: Dual problem of a Support Vector Machine** 
+
+The dual problem for training a support vector machine is also a quadratic program:
+
+$$\begin{array}{cl} & \min_{\mu} \frac{1}{2} \|\sum_i\mu_i y_ix_i\|_2^2-\sum_i \mu_i \\
+ s.t. & \left\{\begin{array}{lr}  
+0 \leq \mu_i \leq C & \forall i \in [1,...,N]\\
+\sum_i \mu_i y_i = 0 \\
+\end{array}\right. \end{array}$$
+
+But more on that later...
+
+We will explain how to transform the original Hinge loss into this dual problem in the second part of this series
+{: .notice--info}
 
 ### Second order cone programming (SOCP)
 
+Second order cone programs might seem a little bit more esoteric at first glance, so let's analyze them step by step. Here, we focus on a linear objective function, and we can have some linear equality or inequality constraints. In fact, the only difference between SOCP and linear programs is that we constrain $$x$$ to lies in a $$l_2$$ norm cone (thus the name "second order cone"). To understand what this mean, let's define what a norm cone is:
+
+A norm cone is a subset of $$R^{n+1}$$ of the form  $$\left\{(x,t)\mid \|x\| \leq t\right\}$$ for any norm $$\|.\|$$ that you can think of. Some common ones are the first order cone $$\left\{(x,t)\mid \sum_i \mid x_i \mid \leq t\right\}$$ for the $$l_1$$ norm and the second order cone $$\left\{(x,t)\mid \sum_i x_i^2 \leq t\right\}$$ for the $$l_2$$ norm. All norm cones are convex, and thus the second-order cone $$\left\{x\mid\|A_ix + b_i\|_2 \leq c_i^Tx + d_i\right\}$$ is convex too. Second order cone programs deals with this kind of feasible sets:
+
 $$\begin{array}{cl} & \min_x c^Tx \\
  s.t.  & \left\{ \begin{array}{l}
- \|A_ix + b_i\|_2 \leq c_i^T + d_i, \, i=1,...,m \\ 
+ \|A_ix + b_i\|_2 \leq c_i^Tx + d_i, \, i=1,...,m \\ 
  Gx = h\end{array} \right. \end{array} $$
 
- [demander à laurent pour un exemple]
+Notice that you can add some linear inequality constraints by taking $$A_i=0$$ and $$b_i=0$$ (thus ending up with $$0 \leq c_i^Tx + d_i$$) or some quadratic constraints by taking $$c_i=0$$ (and ending up with $$\|A_ix + b_i\|_2^2 \leq d_i^2$$).
 
+**Example: Portfolio with controled risk**
+
+Let's take again the portfolio example that we saw in the previous section. Maybe the concept of volatility seems a little bit too abstract, and you would prefer to control the risk of big losses instead. To do so, a solution is to optimize a portfolio to maximize the returns, while having a probability smaller than $$\alpha$$ of loosing more than a certain amount $$\eta$$. For instance, you might want to portfolio that earn as much as possible, while having less than 5% of chances of loosing 20% or more of your money. SOCP allows you to do so:
+
+First, let's assume that the stock returns follows a (multivariate) normal distribution: $$r \sim N(\mu, \Sigma)$$ so that the returns of the whole portfolio is normal too: $$r^Tw \sim N(\mu^Tw, w^T\Sigma w)$$. The constraint "having a probability smaller than $$\alpha$$ of loosing more than a certain amount $$\mu$$" is translated into:
+
+$$\begin{array}{lr} P\left(r^Tw \leq \eta\right) \leq \alpha & \textrm{(1)} \end{array}$$
+
+We can express this probability using the cumulative density function of the normal distribution, $$\Phi: z\to \frac{1}{\sqrt{2\pi}}\int_{-\infty}^z e^{-x^2/2}dx$$:
+
+$$\begin{array}{rl} \textrm{(1)} \iff & P\left(\frac{r^Tw - \mu^Tw}{\sqrt{w^T\Sigma w}} \leq \frac{\eta- \mu^Tw}{\sqrt{w^T\Sigma w}}\right) \leq \alpha \\
+\iff & \Phi\left( \frac{\eta- \mu^Tw}{\sqrt{w^T\Sigma w}} \right) \leq \alpha \\
+\iff & \eta \leq \mu^Tw  + \Phi^{-1}(\alpha)\sqrt{w^T\Sigma w}  \\
+\iff & \eta \leq \mu^Tw  + \Phi^{-1}(\alpha)\|\Sigma^{1/2} w\|_2 \end{array}$$
+
+For $$\alpha \leq \frac{1}{2}$$, we have $$\Phi^{-1}(\alpha)\leq 0$$ thus (1) is equivalent to a second order cone constraint! Our final optimization problem would look like:
+
+$$\begin{array}{cl} & \max_x \mu^Tw \\
+ s.t.  & \left\{ \begin{array}{l}
+ \eta \leq \mu^Tw  + \Phi^{-1}(\alpha)\|\Sigma^{1/2} w\|_2 \\ 
+\sum_i w_i = 1 \end{array} \right. \end{array}$$
+
+**Square root of a matrix** The last ingredient in the previous reasoning was the fact that $$\sqrt{w^T\Sigma w} = \|\Sigma^{1/2} w\|_2$$. Indeed we have $$\|\Sigma^{1/2} w\|_2^2 = (\Sigma^{1/2} w)^T(\Sigma^{1/2} w) = w^T\Sigma w$$. $$\Sigma^{1/2}$$ exists because  $$\Sigma$$ is semi-definite positive: with the decomposition $$\Sigma = A^T \Lambda A$$ with $$\Lambda$$ being a diagonal matrix with positive coefficient, we have $$\Sigma^{1/2} = \sqrt{\Lambda} A$$, where the square root should be understood component-wise. 
+{: .notice--info}
 
 ## Losses and maximum-likelihood
+
+
+### The receipe
+
+Now that we have a good understanding of convex optimization problems, it's time to show how to use them to solve machine learning problems. One standard receipe is as follows:
+- Make some hypothesis on the distribution of what you want to predict. These distributions should be conditional on the inputs $$x_i$$ and some parameters $$\beta$$ (for instance, we can suppose that $$y\mid x, \beta \sim N(\beta^T x, \sigma^2)$$ for a linear regression with Gaussian noise).
+- For a dataset $$D = \left\{ (X_1, y_1), (X_2, y_2), ..., (X_N, y_N)\right\}$$ which consists of $$N$$ independant observations, compute the joint probability of your dataset and your parameters :
+
+$$ \begin{array}{r,l,l} 
+P(D, \beta) & = P(D\mid\beta)P(\beta) & \textrm{Condition on the parameters} \\
+& = P(y_1,...y_n \mid X_1,...X_n, \beta) P(\beta) \\
+& = \left(\prod_{i=1}^N P(y_i \mid X_i, \beta)\right) P(\beta) & \textrm{By independance} \end{array} $$
+ 
+- We want to find the parameters that maximize this probability. Equivalently, we want to minimize the negative logarithm of it:
+
+$$\min_{\beta} \left\{\sum_{i=1}^N -\ln P(y_i \mid X_i, \beta) -\ln P(\beta)\right\}$$
+
+This last expression is called the "loss function" that is to be minimized during training. Hopefully it might be convex and can be solved using some convex optimization algorithms. In this formulation, $$-\ln P(y_i \mid X_i, \beta)$$ is the loss of a training example, and $$-\ln P(\beta)$$ is some kind of regularization. 
+
+Going from the probabilistic model to the optimization problem (by taking the negative log) or the other way around (by taking the negative exponential) is often very fruitful and can give a lot of insights about a model. Now let's move to some classic example to make it easier to grasp.
+
+**Limits:** This method works great for a lot of simple models (linear, Poisson regressions, etc...), but it has some limits. For instance, maybe the optimization problem ends up not being convex. On the other and, some convex optimization problems like Support Vector Machines don't have such a probabilistic interpretation. 
+{: .notice--warning}
 
 ### Exemple 1: Linear regression
 
