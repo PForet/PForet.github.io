@@ -3,7 +3,7 @@ title: Pierre Foret
 layout: single
 header:
   overlay_image: /assets/images/head/head12.png
-permalink: /pierre_foret/
+permalink: /people/pierre_foret/
 author: Pierre_Foret_people
 author_profile: true
 ---
