@@ -8,7 +8,7 @@ permalink: /people/
 
 pierre_foret:
   - image_path: /assets/images/people/pierre_foret_people.png
-    url: /pierre_foret/
+    url: /people/pierre_foret/
     alt: "placeholder image 2"
     title: "Pierre Foret"
     excerpt: 'Currently a Google AI Resident (starting in July). Longtime statistics and machine learning enthusiast.
@@ -19,7 +19,7 @@ pierre_foret:
 
 yoan_russac:
   - image_path: /assets/images/people/yoan_russac_people.png
-    url: /yoan_russac/
+    url: /people/yoan_russac/
     alt: "placeholder image 2"
     title: "Yoan Russac"
     excerpt: 'PhD candidate in Machine Learning at ENS Paris under the supervision of Olivier Cappé and Aurélien Garivier particularly interested in Online Learning, Recommendation Systems and Reinforcement Learning.'
