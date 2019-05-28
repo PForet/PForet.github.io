@@ -1,7 +1,7 @@
 ---
 title: "Yoan Russac"
 layout: single
-permalink: /yoan_russac/
+permalink: /people/yoan_russac/
 
 author: Yoan_Russac
 author_profile: true
