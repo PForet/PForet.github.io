@@ -2,15 +2,17 @@
 title: Duality applied to machine learning
 layout: single
 header:
-  overlay_image: /assets/images/head/head12.png
+  overlay_image: /assets/images/head/head4.png
 permalink: /unreacheable-2/
-author: 'No one'
-author_profile: False
+author_profile: True
 comments: true
 share: False
 related: False
 use_math: true
 sitemap: false
+toc: true
+toc_label: "Content"
+toc_icon: "angle-double-down"
 ---
 
 ## Convex conjugate

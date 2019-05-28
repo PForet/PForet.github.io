@@ -363,7 +363,6 @@ $$\begin{array}{cl} & \max_x \mu^Tw \\
 
 ## Losses and maximum-likelihood
 
-
 ### The receipe
 
 Now that we have a good understanding of convex optimization problems, it's time to show how to use them to solve machine learning problems. One standard receipe is as follows:
@@ -371,11 +370,11 @@ Now that we have a good understanding of convex optimization problems, it's time
 - For a dataset $$D = \left\{ (X_1, y_1), (X_2, y_2), ..., (X_N, y_N)\right\}$$ which consists of $$N$$ independant observations, compute the joint probability of your dataset and your parameters :
 
 $$ \begin{array}{r,l,l} 
-P(D, \beta) & = P(D\mid\beta)P(\beta) & \textrm{Condition on the parameters} \\
-& = P(y_1,...y_n \mid X_1,...X_n, \beta) P(\beta) \\
-& = \left(\prod_{i=1}^N P(y_i \mid X_i, \beta)\right) P(\beta) & \textrm{By independance} \end{array} $$
+P(D, \beta) & = P(D\mid\beta)P(\beta)  \\
+& = \left(\prod_{i=1}^N P(y_i, X_i \mid \beta) \right) P(\beta) & \text{(independance)} \\
+& = \left(\prod_{i=1}^N P(y_i \mid X_i, \beta) P(X_i \mid \beta) \right) P(\beta) \end{array}$$
  
-- We want to find the parameters that maximize this probability. Equivalently, we want to minimize the negative logarithm of it:
+- We want to find the parameters that maximize this probability or, equivalently, that minimize the its negative logarithm. Some simplifications can be made here. First, we consider that the parameters don't have any influence on the distribution of the inputs, or in other words: $$P(X_i \mid \beta) = P(X_i)$$. As a result, $$P(X_i \mid \beta)$$ can be removed from the objective function, as it does not depend on the parameters. We end up with the following optimization problem:
 
 $$\min_{\beta} \left\{\sum_{i=1}^N -\ln P(y_i \mid X_i, \beta) -\ln P(\beta)\right\}$$
 

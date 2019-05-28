@@ -15,7 +15,7 @@ defaults:
 
 header:
     teaser: /assets/images/Monkey-typing.jpg
-    overlay_image: /assets/images/head/head2.png
+    overlay_image: /assets/images/head/head1.png
 excerpt: "Clearing computer science interviews, without being a computer scientist."
 
 toc: true
