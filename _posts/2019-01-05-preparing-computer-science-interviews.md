@@ -183,7 +183,7 @@ _(In fact, the best algorithm known for that task is in O(n^2 * log log n / log 
 
 When given a new problem, makes sure that you understand it by giving the interviewer (or testing on the simplest test cases for online exercises) a basic solution. Then, try to see if the questions fall into one of the big algorithms paradigms (is it a dynamic programming problem? Is there a greedy solution? Could it be related to graphs?). If the answer is no, then it is probably more a data structure problem such as the 3Sum problem above. In this case, try to see if you can find some trick (such as searching for `-a-b` in the list for instance), and if you can, try so find which data structure is more adapted for your problem (a Python `set` here).
 
-Don't hesitate to post in the comments if you have any question
+Don't hesitate to post in the comments if you have any question. I still have more examples and tips to discuss if this post gains some attention.
 {: .notice--info}
 
 ### Resources 
