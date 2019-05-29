@@ -55,6 +55,13 @@ The type of object in the data structure does not matter. Most of the time it wi
 The following table gives the complexity of these operations for the most well-known data structures.
 
 ![](https://he-s3.s3.amazonaws.com/media/uploads/c14cb1f.JPG)
+<figure>
+  <figcaption class="align-center">
+   Cheat sheet from 
+    <a href="https://www.hackerearth.com/fr/practice/notes/big-o-cheatsheet-series-data-structures-and-algorithms-with-thier-complexities-1/">HackerEarth </a>
+  </figcaption>
+</figure>
+
 
 Complexity is given on average and in the worst case scenario. Usually, we care about the average, but some programming competition will give you test cases that actually are the worst case scenario (that's why competitors use Balanced trees instead of binary search trees)
 
