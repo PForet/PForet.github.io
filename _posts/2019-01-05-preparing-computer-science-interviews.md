@@ -47,7 +47,7 @@ You might read online that programming interviews are among the most difficult t
 ## Data structures
 
 The type of object in the data structure does not matter. Most of the time it will be integers. The most important thing to remember is the complexity of the data structures for the four basic operations:
-- Indexing: What is the complexity of accessing the element associated with a particular key? For instance, for a Python `list`, what is the complexity of accessing `mylist[10]`? And for a Python `dict`, what about `mydict[10]`? For the list, it's O(n), but O(1) for the dictionary. Thus, if in our problem we know that we will have to access values often, we will never choose a list to contain our data.
+- Indexing: What is the complexity of accessing the element associated with a particular key? For instance, for a Python `list`, what is the complexity of accessing `mylist[10]`? And for a Python `dict`, what about `mydict[10]`? For the linked list, it's O(n), but O(1) for the dictionary. Thus, if in our problem we know that we will have to access values often, we will never choose a linked list to contain our data.
 - Search: What is the complexity of finding a particular element in the data structure (that is, finding its index)? 
 - Insertion: What is the cost of inserting a new element in the data structure? By extension, this is also the cost needed to construct our data structure: Creating a Python list of `n` elements costs `n` times O(1), so the construction is O(n). But constructing a Binary Search Tree is more difficult: it takes `n` times O(logn), so O(nlogn). 
 - Deletion: What is the complexity of deleting (removing) an element from a data structure. 
