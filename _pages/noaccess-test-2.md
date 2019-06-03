@@ -297,16 +297,40 @@ The following results are also very useful to compute the conjugate of a composi
 |$$x\to a\times h(x)$$ with $$a > 0$$ | $$y\to a \times h^*(\frac{y}{a})$$| 
 |$$x\to \alpha + \beta x + \gamma \times h( \lambda x + \mu)$$ with $$\gamma > 0$$ | $$y\to -\alpha - \mu \frac{y-\beta}{\lambda} + \gamma h^*(\frac{y-\beta}{\gamma \lambda})$$|
 
-### Relations with the duality
+### Relations with duality
 
+Consider the following optimization problem with linear constraints:
 
-## Applied examples
+$$ \begin{array}{cl} & \min_{x} f(x) \\
+ s.t. & \left\{\begin{array}{l}
+Ax = b \\
+Gx \leq h\\ 
+\end{array}\right. \end{array}$$
 
-### Regularized logistic regression
+The Lagrangian of this problem is: 
 
-[MAKE A DEMO TO EL GHAOUI EXAMPLE WITH CONJUGATES]
+$$\mathcal{L}(x, \lambda, \nu) = f(x) + \lambda^T(Ax-b) + \nu^T(Gx-h)$$
 
-### Dual SVM 
+Thus the dual value function is:
+
+$$\begin{array}{rl}
+g(\lambda, \nu) &= \min_x f(x) + \lambda^T(Ax-b) + \nu^T(Gx-h) \\
+&= \min_x f(x) + (A^T\lambda+G^T\nu)^Tx - \lambda^Tb -\nu^Th \\
+&= -\sup_x \left\{ (-A^T\lambda-G^T\nu)^Tx - f(x)\right\} - \lambda^Tb -\nu^Th \\
+&= -f^*(-A^T\lambda-G^T\nu) - \lambda^Tb -\nu^Th \\
+\end{array}$$
+
+And the dual problem becomes:
+
+$$ \begin{array}{cl} & \min_{\lambda, \mu} f^*(-A^T\lambda-G^T\nu) + \lambda^Tb + \nu^Th \\
+ s.t. & \left\{\begin{array}{l}
+\nu \geq 0 \\
+-A^T\lambda-G^T\nu \in \textrm{Domain}({f^*})
+\end{array}\right. \end{array}$$
+
+## Applied examples: SVM
+
+### Finding the dual problem
 
 Consider the training problem of a SVM: 
 
@@ -365,13 +389,15 @@ C = \mu_i + \lambda_i & \forall i \in [1,...,N]\\
 
 We must remember to add the constraints $$\lambda \geq 0$$ and $$\mu \geq 0$$, as these multipliers are used for inequality constraints. Finally, we can simplify a little bit the constraints by substituting $$\lambda$$, and we can write it as a minimization problem for esthetic purposes:
 
-$$\begin{array} & \min_{\mu} \frac{1}{2} \|\sum_i\mu_i y_ix_i\|_2^2-\sum_i \mu_i \\
+$$\begin{array}{rl} & \min_{\mu} \frac{1}{2} \|\sum_i\mu_i y_ix_i\|_2^2-\sum_i \mu_i \\
  s.t. & \left\{\begin{array}{lr}  
 0 \leq \mu_i \leq C & \forall i \in [1,...,N]\\
 \sum_i \mu_i y_i = 0 \\
 \end{array}\right. \end{array}$$
 
-#### Wait? How de we predict anything now? We lost all the parameters of the decision rule? 
+### Recovering the decision function
+
+> Wait? How de we predict anything now? We lost all the parameters of the decision rule? 
 
 Fear not, enthousiastic reader, for there is a simple solution to this problem. Once we have fitted our SVM on the dataset, we know the optimal coefficients $$\mu^*$$, solution of the dual problem. We can plug it inside the Lagrangian:
 
@@ -400,9 +426,11 @@ $$\textrm{sign}\left(w^Tx_i\right) = \textrm{sign}\left(\sum_{i=1}^N \mu_i^*y_ix
 
 [TODO sparsity of the solution, kernel trick]
 
-### Kernel trick
+### Kernel trick and dual
 
-The dual problem is not the only one to enjoy the kernel trick: it can also be applied to the original problem. Check it out: the training data $$(x_i)_{i=1,...,N}$$ spans a subspace of $$R^M$$, and we can express any vector of $$R^M$$ as the sum of a vector of this subspace and an orthogonal vector. The parameter $$w$$ is in $$R^M$$, meaning we can write $$w = v+r$$ with $$v = \sum_i \alpha_i x_i$$ ($$v$$ is in the subspace) and $$\forall i, r^Tx_i = 0$$ ($$r$$ is orthogonal). If we plug that inside the original minimization problem: 
+Sometime I read online that the dual problem of the SVM allows us to use the kernel trick. This is in fact not true: the dual problem is not the only one to enjoy the kernel trick, as it can also be applied to the original problem. 
+
+Check it out: the training data $$(x_i)_{i=1,...,N}$$ spans a subspace of $$R^M$$, and we can express any vector of $$R^M$$ as the sum of a vector of this subspace and an orthogonal vector. The parameter $$w$$ is in $$R^M$$, meaning we can write $$w = v+r$$ with $$v = \sum_i \alpha_i x_i$$ ($$v$$ is in the subspace) and $$\forall i, r^Tx_i = 0$$ ($$r$$ is orthogonal). If we plug that inside the original minimization problem: 
 
 $$ \textrm{arg} \min_{r,v,b} \frac{1}{2}\|v+r\|_2^2+C\sum_{i=1}^n \max(1-y_i((v+r)^Tx_i+b), 0)$$
 
